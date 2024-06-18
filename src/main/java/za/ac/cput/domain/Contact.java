@@ -14,6 +14,11 @@ public class Contact implements Serializable {
     protected Contact() {
     }
 
+    public Contact(Builder builder) {
+        this.email = builder.email;
+        this.phoneNumber = builder.phoneNumber;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -42,4 +47,26 @@ public class Contact implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
-}
+ public static class Builder {
+     private String email;
+     private String phoneNumber;
+
+     public Builder setEmail(String email) {
+         this.email = email;
+         return this;
+     }
+
+     public Builder setPhoneNumber(String phoneNumber) {
+         this.phoneNumber = phoneNumber;
+         return this;
+     }
+
+     public Builder copy (Contact contact){
+         this.email = contact.email;
+         this.phoneNumber = contact.phoneNumber;
+         return this;
+     }
+     public Contact build () {return new Contact(this);}
+
+     }
+ }

@@ -11,6 +11,8 @@ public class Customer extends User {
     @Embedded
     private Address address;
 
+    public Customer() {
+
     protected Customer() {
     }
 
@@ -23,6 +25,7 @@ public class Customer extends User {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.address = builder.address;
+
     }
 
     public String getFirstName() {
@@ -38,6 +41,20 @@ public class Customer extends User {
     }
 
     @Override
+    public String toString() {
+        return "Customer{" +
+                "address=" + address +
+                ", userId=" + userId +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", contact=" + contact +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -50,6 +67,8 @@ public class Customer extends User {
     public int hashCode() {
         return Objects.hash(super.hashCode(), firstName, lastName, address);
     }
+
+
 
     @Override
     public String toString() {
@@ -131,4 +150,5 @@ public class Customer extends User {
             return new Customer(this);
         }
     }
+
 }
