@@ -16,7 +16,7 @@ public class User {
     protected String role;
 
     @Embedded
-    private Contact contact;
+    protected Contact contact;
 
     protected User() {
     }
