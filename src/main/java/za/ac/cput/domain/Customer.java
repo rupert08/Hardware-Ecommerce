@@ -11,10 +11,7 @@ public class Customer extends User {
     @Embedded
     private Address address;
 
-    public Customer() {
-
-    protected Customer() {
-    }
+    public Customer() {}
 
     public Customer(Builder builder) {
         this.userId = builder.userId;
@@ -40,19 +37,6 @@ public class Customer extends User {
         return address;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "address=" + address +
-                ", userId=" + userId +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", contact=" + contact +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
