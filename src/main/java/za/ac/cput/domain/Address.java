@@ -1,4 +1,4 @@
-package za.co.cput.domain;
+package za.ac.cput.domain;
 
 import jakarta.persistence.Embeddable;
 
