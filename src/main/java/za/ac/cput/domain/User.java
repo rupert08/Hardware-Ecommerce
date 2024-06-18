@@ -17,6 +17,7 @@ public class User {
 
     @Embedded
     protected Contact contact;
+
     protected User() {
     }
 

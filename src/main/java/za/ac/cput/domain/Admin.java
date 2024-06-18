@@ -14,6 +14,7 @@ public class Admin extends User{
         this.username = builder.username;
         this.password = builder.password;
         this.role = builder.role;
+        this.contact = builder.contact;
     }
 
     @Override
@@ -23,6 +24,7 @@ public class Admin extends User{
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", contact=" + contact +
                 '}';
     }
 
@@ -31,6 +33,7 @@ public class Admin extends User{
         private String username;
         private String password;
         private String role;
+        private Contact contact;
 
         public Builder setUserId(long userId) {
             this.userId = userId;
@@ -52,11 +55,17 @@ public class Admin extends User{
             return this;
         }
 
+        public Builder setContact(Contact contact) {
+            this.contact = contact;
+            return this;
+        }
+
         public Builder copy (Admin admin) {
             this.userId = admin.userId;
             this.username = admin.username;
             this.password = admin.password;
             this.role = admin.role;
+            this.contact = admin.contact;
             return this;
         }
 
