@@ -1,6 +1,7 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -42,12 +43,17 @@ public class Contact implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{" +
-                "email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Contact{");
+
+        if (email != null) sb.append("email='").append(email).append('\'');
+        if (phoneNumber != null) sb.append(", phoneNumber='").append(phoneNumber).append('\'');
+
+        sb.append('}');
+        return sb.toString();
     }
- public static class Builder {
+
+    public static class Builder {
      private String email;
      private String phoneNumber;
 

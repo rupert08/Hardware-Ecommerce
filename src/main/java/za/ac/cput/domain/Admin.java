@@ -10,7 +10,7 @@ public class Admin extends User{
     }
 
     public Admin (Builder builder) {
-        this.userId = builder.userId;
+       // this.userId = builder.userId;
         this.username = builder.username;
         this.password = builder.password;
         this.role = builder.role;
@@ -20,8 +20,7 @@ public class Admin extends User{
     @Override
     public String toString() {
         return "Admin{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", contact=" + contact +
