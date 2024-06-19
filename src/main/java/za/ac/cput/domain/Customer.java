@@ -56,16 +56,21 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address=" + address +
-                ", userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", contact=" + contact +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Customer{");
+
+        if (firstName != null) sb.append("firstName='").append(firstName).append('\'');
+        if (lastName != null) sb.append(", lastName='").append(lastName).append('\'');
+        if (address != null) sb.append(", address=").append(address);
+        if (userId != 0) sb.append(", userId=").append(userId);
+        if (username != null) sb.append("username='").append(username).append('\'');
+        if (password != null) sb.append(", password='").append(password).append('\'');
+        if (role != null) sb.append(", role='").append(role).append('\'');
+        if (contact != null) sb.append(", contact=").append(contact);
+
+        sb.append('}');
+        return sb.toString();
+
     }
 
     public static class Builder {
