@@ -37,3 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /src/main/java/za/ac/cput/domain/Address.java
+/src/main/java/za/ac/cput/
