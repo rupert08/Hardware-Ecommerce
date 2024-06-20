@@ -35,7 +35,7 @@ class CustomerFactoryTest {
         Address address = AddressFactory.createAddress("21","","","",
                 "","Moses","Capetown","Western Cape","8008");
         assertNotNull(address);
-        Customer customer = CustomerFactory.createCustomer2("John","Wick",contact,"123456","Customer",address) ;
+        Customer customer = CustomerFactory.createCustomer2(contact.getEmail(), "John","Wick",contact,"123456","Customer",address) ;
 
         assertNotNull(customer);
         System.out.println(customer);
@@ -45,7 +45,7 @@ class CustomerFactoryTest {
     void d_customerRegisterDetails_failed() {
         Address address = AddressFactory.createAddress("12","","","",
                 "","Moses","Capetown","Western Cape","8008");
-        Customer customer = CustomerFactory.createCustomer2("","Moses",contact,"123456","Customer",address) ;
+        Customer customer = CustomerFactory.createCustomer2(contact.getEmail(), "","Moses",contact,"123456","Customer",address) ;
 
         assertNotNull(customer);
         System.out.println(customer);

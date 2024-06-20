@@ -10,7 +10,7 @@ public class Admin extends User{
     }
 
     public Admin (Builder builder) {
-       // this.userId = builder.userId;
+        this.userId = builder.userId;
         this.username = builder.username;
         this.password = builder.password;
         this.role = builder.role;

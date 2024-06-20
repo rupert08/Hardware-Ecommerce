@@ -17,13 +17,14 @@ public class CustomerFactory {
                 .build();
     }
 
-    public static Customer createCustomer2( String firstname, String lastname,Contact contact, String password, String role, Address address) {
-        if ( Helper.isNullOrEmpty(firstname)|| Helper.isNullOrEmpty(lastname)|| Helper.isNullOrEmpty(String.valueOf(contact))|| Helper.isNullOrEmpty(password)
+    public static Customer createCustomer2(String username, String firstname, String lastname,Contact contact, String password, String role, Address address) {
+        if (Helper.isValidEmail(username) || Helper.isNullOrEmpty(firstname)|| Helper.isNullOrEmpty(lastname)|| Helper.isNullOrEmpty(String.valueOf(contact))|| Helper.isNullOrEmpty(password)
                 || Helper.isNullOrEmpty(role)|| Helper.isNullOrEmpty(String.valueOf(address))) {
             return null;
         }
 
         return new Customer.Builder()
+                .setUsername(username)
                 .setFirstName(firstname)
                 .setLastName(lastname)
                 .setContact(contact)
