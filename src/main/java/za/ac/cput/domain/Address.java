@@ -82,17 +82,21 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "streetNumber='" + streetNumber + '\'' +
-                ", unitNumber='" + unitNumber + '\'' +
-                ", complexNumber='" + complexNumber + '\'' +
-                ", complexName='" + complexName + '\'' +
-                ", apartmentNumber='" + apartmentNumber + '\'' +
-                ", streetName='" + streetName + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Address{");
+
+        if (streetNumber != null && !streetNumber.isEmpty()) sb.append("streetNumber='").append(streetNumber).append('\'');
+        if (unitNumber != null && !unitNumber.isEmpty()) sb.append(", unitNumber='").append(unitNumber).append('\'');
+        if (complexNumber != null && !complexNumber.isEmpty()) sb.append(", complexNumber='").append(complexNumber).append('\'');
+        if (complexName != null && !complexName.isEmpty()) sb.append(", complexName='").append(complexName).append('\'');
+        if (apartmentNumber != null && !apartmentNumber.isEmpty()) sb.append(", apartmentNumber='").append(apartmentNumber).append('\'');
+        if (streetName != null && !streetName.isEmpty()) sb.append(", streetName='").append(streetName).append('\'');
+        if (city != null && !city.isEmpty()) sb.append(", city='").append(city).append('\'');
+        if (state != null && !state.isEmpty()) sb.append(", state='").append(state).append('\'');
+        if (postalCode != null && !postalCode.isEmpty()) sb.append(", postalCode='").append(postalCode).append('\'');
+
+        sb.append('}');
+        return sb.toString();
     }
 
     public static class Builder {

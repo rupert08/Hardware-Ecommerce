@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 public class Admin extends User{
+
     protected Admin() {
     }
 
@@ -19,8 +20,7 @@ public class Admin extends User{
     @Override
     public String toString() {
         return "Admin{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", contact=" + contact +

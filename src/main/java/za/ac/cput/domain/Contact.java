@@ -1,6 +1,7 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,6 +13,11 @@ public class Contact implements Serializable {
     private String phoneNumber;
 
     protected Contact() {
+    }
+
+    public Contact(Builder builder) {
+        this.email = builder.email;
+        this.phoneNumber = builder.phoneNumber;
     }
 
     public String getEmail() {
@@ -37,9 +43,36 @@ public class Contact implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{" +
-                "email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Contact{");
+
+        if (email != null) sb.append("email='").append(email).append('\'');
+        if (phoneNumber != null) sb.append(", phoneNumber='").append(phoneNumber).append('\'');
+
+        sb.append('}');
+        return sb.toString();
     }
-}
+
+    public static class Builder {
+     private String email;
+     private String phoneNumber;
+
+     public Builder setEmail(String email) {
+         this.email = email;
+         return this;
+     }
+
+     public Builder setPhoneNumber(String phoneNumber) {
+         this.phoneNumber = phoneNumber;
+         return this;
+     }
+
+     public Builder copy (Contact contact){
+         this.email = contact.email;
+         this.phoneNumber = contact.phoneNumber;
+         return this;
+     }
+     public Contact build () {return new Contact(this);}
+
+     }
+ }

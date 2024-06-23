@@ -11,8 +11,7 @@ public class Customer extends User {
     @Embedded
     private Address address;
 
-    protected Customer() {
-    }
+    public Customer() {}
 
     public Customer(Builder builder) {
         this.userId = builder.userId;
@@ -23,6 +22,7 @@ public class Customer extends User {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.address = builder.address;
+
     }
 
     public String getFirstName() {
@@ -36,6 +36,7 @@ public class Customer extends User {
     public Address getAddress() {
         return address;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -51,18 +52,25 @@ public class Customer extends User {
         return Objects.hash(super.hashCode(), firstName, lastName, address);
     }
 
+
+
     @Override
     public String toString() {
-        return "Customer{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address=" + address +
-                ", userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", contact=" + contact +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Customer{");
+
+        if (firstName != null) sb.append("firstName='").append(firstName).append('\'');
+        if (lastName != null) sb.append(", lastName='").append(lastName).append('\'');
+        if (address != null) sb.append(", address=").append(address);
+        if (userId != 0) sb.append(", userId=").append(userId);
+        if (username != null) sb.append("username='").append(username).append('\'');
+        if (password != null) sb.append(", password='").append(password).append('\'');
+        if (role != null) sb.append(", role='").append(role).append('\'');
+        if (contact != null) sb.append(", contact=").append(contact);
+
+        sb.append('}');
+        return sb.toString();
+
     }
 
     public static class Builder {
@@ -131,4 +139,5 @@ public class Customer extends User {
             return new Customer(this);
         }
     }
+
 }
