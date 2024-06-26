@@ -1,14 +1,12 @@
 package za.ac.cput.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table
 public class CartItem implements Serializable {
 
     @Id
@@ -18,9 +16,7 @@ public class CartItem implements Serializable {
     @JoinColumn(name = "CartId", nullable = false)
     private Cart cart;
     private int quantity;
-    private double price;
-
-
+    private float price;
 
     protected CartItem() {
     }
@@ -31,7 +27,6 @@ public class CartItem implements Serializable {
         this.cart = builder.cart;
         this.quantity = builder.quantity;
         this.price = builder.price;
-
     }
 
     public Long getCartItemID() {
@@ -42,19 +37,28 @@ public class CartItem implements Serializable {
         return productID;
     }
 
-    public Cart getCart() {return cart;
+    public Cart getCart() {
+        return cart;
     }
-    public Integer getQuantity() {
+
+    public int getQuantity() {
         return quantity;
     }
-    public double getPrice() {return price;}
+
+    public float getPrice() {
+        return price;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
-        return quantity == cartItem.quantity && Double.compare(price, cartItem.price) == 0 && Objects.equals(cartItemID, cartItem.cartItemID) && Objects.equals(productID, cartItem.productID) && Objects.equals(cart, cartItem.cart);
+        return quantity == cartItem.quantity &&
+                Float.compare(cartItem.price, price) == 0 &&
+                Objects.equals(cartItemID, cartItem.cartItemID) &&
+                Objects.equals(productID, cartItem.productID) &&
+                Objects.equals(cart, cartItem.cart);
     }
 
     @Override
@@ -78,7 +82,7 @@ public class CartItem implements Serializable {
         private Long productID;
         private Cart cart;
         private int quantity;
-        private double price;
+        private float price;
 
         public Builder setCartItemID(Long cartItemID) {
             this.cartItemID = cartItemID;
@@ -100,7 +104,7 @@ public class CartItem implements Serializable {
             return this;
         }
 
-        public Builder setPrice(double price) {
+        public Builder setPrice(float price) {
             this.price = price;
             return this;
         }

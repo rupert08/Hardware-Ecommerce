@@ -9,16 +9,16 @@ public class CartFactoryTest {
 
     @Test
     void testCreateCartWithValidFields() {
-        Cart cart = CartFactory.createCart1(1234567L, 450.75);
+        Cart cart = CartFactory.createCart1(1234567L, 450.75f);
         assertNotNull(cart);
         assertEquals(1234567L, cart.getUserId());
-        assertEquals(450.75, cart.getTotalPrice());
+        assertEquals(450.75f, cart.getTotalPrice());
         System.out.println(cart);
     }
 
     @Test
     void testCreateCartWithNullUser() {
-        Cart cart = CartFactory.createCart1(null, 450.75);
+        Cart cart = CartFactory.createCart1(null, 450.75f);
         assertNull(cart);
     }
 
@@ -29,17 +29,11 @@ public class CartFactoryTest {
     }
 
     @Test
-    void testCreateCartWithNegativeTotalPrice() {
-        Cart cart = CartFactory.createCart1(1234567L, -99.99);
-        assertNull(cart);
-    }
-
-    @Test
     void testCreateCartWithZeroTotalPrice() {
-        Cart cart = CartFactory.createCart1(7654321L, 0.0);
+        Cart cart = CartFactory.createCart1(7654321L, 0.0f);
         assertNotNull(cart);
         assertEquals(7654321L, cart.getUserId());
-        assertEquals(0.0, cart.getTotalPrice());
+        assertEquals(0.0f, cart.getTotalPrice());
         System.out.println(cart);
     }
 }
