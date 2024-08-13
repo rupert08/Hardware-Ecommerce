@@ -28,8 +28,13 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public void delete(Long id) {
-        adminRepository.deleteById(id);
+    public Admin update(Admin admin) {
+
+       return adminRepository.save(admin);
+    }
+
+    @Override
+    public void delete(Long id) {adminRepository.deleteById(id);
     }
 
     @Override

@@ -1,0 +1,48 @@
+package za.ac.cput.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import za.ac.cput.domain.Order;
+import za.ac.cput.service.OrderService;
+import java.util.Set;
+@RestController
+@RequestMapping("/order")
+public class OrderController {
+
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/home")
+    public String home() {
+        return "index.html";
+    }
+
+    @PostMapping("/create")
+    public Order createOrder(@RequestBody Order order) {
+        return orderService.create(order);
+    }
+
+    @GetMapping("/read/{orderID}")
+    public Order readOrder(@PathVariable Long orderID) {
+        return orderService.read(orderID);
+    }
+
+    @PostMapping("/update")
+    public Order updateOrder(@RequestBody Order order) {
+        return orderService.update(order);
+    }
+
+    @DeleteMapping("/delete/{orderID}")
+    public void deleteOrder(@PathVariable Long orderID) {
+        orderService.delete(orderID);
+    }
+
+    @GetMapping("/getAll")
+    public Set<Order> getAllOrders() {
+        return orderService.getAll();
+    }
+
+    }
+
+
+

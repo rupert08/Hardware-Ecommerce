@@ -22,11 +22,13 @@ class CustomerServiceTest {
     CustomerService customerService;
     private static Contact contact = ContactFactory.createContact("john1@gmail.com","02189456123");
     private static Address address = AddressFactory.createAddress("21","","","",
-            "","Moses","Capetown","Western Cape","8008");
+            "","Moses","Capetown","Western Cape","7646");
+
     private static Customer customer = CustomerFactory.createCustomer2(contact.getEmail(), "John","Wick",contact,"123456","Customer",address);
 
     @Test
     void a_create() {
+
         Customer created = customerService.create(customer);
         assertNotNull(created);
         System.out.println(created);
@@ -51,7 +53,7 @@ class CustomerServiceTest {
     @Disabled
     void d_delete() {
         customerService.delete(customer.getUserId());
-        System.out.println("Customer Deleted Where User ID = " + customer.getUserId());
+        System.out.println("Customer Deleted Where User ID = "+ customer.getUserId() );
     }
 
     @Test

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+
 @Entity
 public class Customer extends User {
     private String firstName;
@@ -15,12 +16,12 @@ public class Customer extends User {
 
     public Customer(Builder builder) {
         this.userId = builder.userId;
-        this.username = builder.username;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.username = builder.contact.getEmail();
         this.password = builder.password;
         this.role = builder.role;
         this.contact = builder.contact;
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
         this.address = builder.address;
 
     }
@@ -36,7 +37,10 @@ public class Customer extends User {
     public Address getAddress() {
         return address;
     }
-
+    public void setContact(Contact contact) {
+        this.contact = contact;
+        this.username = contact.getEmail();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -59,14 +63,14 @@ public class Customer extends User {
         StringBuilder sb = new StringBuilder();
         sb.append("Customer{");
 
-        if (firstName != null) sb.append("firstName='").append(firstName).append('\'');
-        if (lastName != null) sb.append(", lastName='").append(lastName).append('\'');
-        if (address != null) sb.append(", address=").append(address);
-        if (userId != 0) sb.append(", userId=").append(userId);
-        if (username != null) sb.append("username='").append(username).append('\'');
-        if (password != null) sb.append(", password='").append(password).append('\'');
-        if (role != null) sb.append(", role='").append(role).append('\'');
-        if (contact != null) sb.append(", contact=").append(contact);
+        if (userId != 0) sb.append(", UserId= ").append(userId).append('\'');
+        if (username != null) sb.append(" Username= '").append(username).append('\'');
+        if (firstName != null) sb.append(" FirstName= '").append(firstName).append('\'');
+        if (lastName != null) sb.append(", LastName= '").append(lastName).append('\'');
+        if (address != null) sb.append(", Address = ").append(address);
+        if (password != null) sb.append(", password= '").append(password).append('\'');
+        if (role != null) sb.append(", role= '").append(role).append('\'');
+        if (contact != null) sb.append(", contact= ").append(contact);
 
         sb.append('}');
         return sb.toString();
@@ -75,12 +79,12 @@ public class Customer extends User {
 
     public static class Builder {
         private long userId;
+        private String firstName;
+        private String lastName;
         private String username;
         private String password;
         private String role;
         private Contact contact;
-        private String firstName;
-        private String lastName;
         private Address address;
 
         public Builder setUserId(long userId) {
@@ -125,18 +129,20 @@ public class Customer extends User {
 
         public Builder copy (Customer customer) {
             this.userId = customer.userId;
+            this.firstName = customer.firstName;
+            this.lastName = customer.lastName;
             this.username = customer.username;
             this.password = customer.password;
             this.role = customer.role;
             this.contact = customer.contact;
-            this.firstName = customer.firstName;
-            this.lastName = customer.lastName;
             this.address = customer.address;
             return this;
         }
 
         public Customer build() {
-            return new Customer(this);
+            Customer customer = new Customer(this);
+            customer.username = this.contact.getEmail();
+            return customer;
         }
     }
 

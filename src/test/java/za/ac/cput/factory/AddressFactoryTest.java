@@ -25,7 +25,7 @@ class AddressFactoryTest {
     @Test
     @Order(2)
     void b_createApartmentAddress_success() {
-        Address address = AddressFactory.createAddress("", "", "", "Sunset Complex", "A12", "Main Street", "Capetown", "Western Cape", "8008");
+        Address address = AddressFactory.createAddress("2", "", "", "Sunset Complex", "A12", "Main Street", "Capetown", "Western Cape", "8008");
         assertNotNull(address);
         System.out.println(address.toString());
     }
@@ -33,7 +33,7 @@ class AddressFactoryTest {
     @Test
     @Order(3)
     void c_createUnitAddress_success() {
-        Address address = AddressFactory.createAddress("", "3B", "", "Highrise Building", "", "Main Street", "Capetown", "Western Cape", "8008");
+        Address address = AddressFactory.createAddress("5", "3B", "", "Highrise Building", "", "Main Street", "Capetown", "Western Cape", "8008");
         assertNotNull(address);
         System.out.println(address.toString());
     }
