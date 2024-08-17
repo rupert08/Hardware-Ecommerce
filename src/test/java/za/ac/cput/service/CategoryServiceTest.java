@@ -9,6 +9,7 @@ import za.ac.cput.factory.CategoryFactory;
 import za.ac.cput.factory.ProductFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,13 +40,13 @@ class CategoryServiceTest {
             Product product1 = ProductFactory.createProduct(
                     "Power Drill",
                     "High-speed power drill for home and professional use",
-                    699.99f,
+                   (699.99f),
                     "C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png", category
             );
             Product product2 = ProductFactory.createProduct(
                     "Electric Saw",
                     "Efficient electric saw for cutting wood and metal",
-                    499.99f,
+                    (499.99f),
                     "C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png",
                     category
             );
@@ -74,6 +75,7 @@ class CategoryServiceTest {
     }
 
     @Test
+    @Order(2)
     void b_read() {
         Category read = categoryService.read(category.getCategoryId());
         assertNotNull(read);
@@ -81,6 +83,7 @@ class CategoryServiceTest {
     }
 
     @Test
+    @Order(3)
     @Disabled
     void c_delete() {
         categoryService.delete(category.getCategoryId());
@@ -88,6 +91,7 @@ class CategoryServiceTest {
     }
 
     @Test
+    @Order(4)
     void d_getAll() {
         Set<Category> categories = categoryService.getAll();
         assertFalse(categories.isEmpty());

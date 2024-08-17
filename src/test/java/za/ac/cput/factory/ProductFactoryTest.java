@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Category;
 import za.ac.cput.domain.Product;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Slf4j
 @SpringBootTest
@@ -26,7 +28,7 @@ public class ProductFactoryTest {
 
         Product productWithImage = ProductFactory.createProduct("Power Drill",
                         "High-speed power drill for home and professional use",
-                699.99f,
+                (699.99f),
                 "",
  category);
 

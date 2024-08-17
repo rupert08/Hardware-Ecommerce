@@ -1,3 +1,4 @@
+// CustomerService.java
 package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -5,17 +6,17 @@ import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
-import za.ac.cput.factory.CustomerFactory;
 import za.ac.cput.repository.CustomerRepository;
 import za.ac.cput.util.Helper;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerService implements ICustomerService{
-    private CustomerRepository customerRepository;
+public class CustomerService implements ICustomerService {
+    private final CustomerRepository customerRepository;
 
     @Autowired
     CustomerService(CustomerRepository customerRepository) {
@@ -52,7 +53,7 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public Customer findByUsernameAndPassword(String username, String password) {
-        return customerRepository.findByUsernameAndPassword(username,password);
+        return customerRepository.findByUsernameAndPassword(username, password);
     }
 
     public Customer partialUpdate(Customer customer) {
@@ -91,45 +92,14 @@ public class CustomerService implements ICustomerService{
 
                 builder.setContact(contactBuilder.build());
             }
-            if (customer.getAddress() != null) {
-                Address existingAddress = existingCustomer.getAddress();
-                Address newAddress = customer.getAddress();
-                Address.Builder addressBuilder = new Address.Builder().copy(existingAddress);
-
-                if (newAddress.getStreetNumber() != null) {
-                    addressBuilder.setStreetNumber(newAddress.getStreetNumber());
-                }
-                if (newAddress.getUnitNumber() != null) {
-                    addressBuilder.setUnitNumber(newAddress.getUnitNumber());
-                }
-                if (newAddress.getComplexNumber() != null) {
-                    addressBuilder.setComplexNumber(newAddress.getComplexNumber());
-                }
-                if (newAddress.getComplexName() != null) {
-                    addressBuilder.setComplexName(newAddress.getComplexName());
-                }
-                if (newAddress.getApartmentNumber() != null) {
-                    addressBuilder.setApartmentNumber(newAddress.getApartmentNumber());
-                }
-                if (newAddress.getStreetName() != null) {
-                    addressBuilder.setStreetName(newAddress.getStreetName());
-                }
-                if (newAddress.getCity() != null) {
-                    addressBuilder.setCity(newAddress.getCity());
-                }
-                if (newAddress.getState() != null) {
-                    addressBuilder.setState(newAddress.getState());
-                }
-                if (newAddress.getPostalCode() != null) {
-                    addressBuilder.setPostalCode(newAddress.getPostalCode());
-                }
-
-                builder.setAddress(addressBuilder.build());
+            if (customer.getAddresses() != null) {
+                List<Address> existingAddresses = existingCustomer.getAddresses();
+                List<Address> newAddresses = customer.getAddresses();
+                builder.setAddresses(newAddresses != null ? newAddresses : existingAddresses);
             }
 
             return customerRepository.save(builder.build());
         }
         return null;
     }
-
 }

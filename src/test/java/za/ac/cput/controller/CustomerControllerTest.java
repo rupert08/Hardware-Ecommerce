@@ -1,3 +1,4 @@
+// CustomerControllerTest.java
 package za.ac.cput.controller;
 
 import org.junit.jupiter.api.*;
@@ -8,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
@@ -16,9 +16,11 @@ import za.ac.cput.factory.AddressFactory;
 import za.ac.cput.factory.ContactFactory;
 import za.ac.cput.factory.CustomerFactory;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CustomerControllerTest {
     @Autowired
@@ -31,7 +33,7 @@ class CustomerControllerTest {
             "","Moses","Paarl","Western-Cape","");
     private static Customer customer= CustomerFactory.createCustomer2(
             "rupert@gmail.com","rupert","charles",
-            contact,"123456","Customer",address);
+            contact,"123456","Customer", Collections.singletonList(address));
     private static Customer savedCustomer;
 
     @Test
@@ -43,15 +45,15 @@ class CustomerControllerTest {
         assertNotNull(customerResponseEntity);
         assertNotNull(customerResponseEntity.getBody());
 
-       savedCustomer = customerResponseEntity.getBody();
-       customer = new Customer.Builder()
+        savedCustomer = customerResponseEntity.getBody();
+        customer = new Customer.Builder()
                 .setUserId(savedCustomer.getUserId())
                 .setFirstName(savedCustomer.getFirstName())
                 .setLastName(savedCustomer.getLastName())
                 .setContact(savedCustomer.getContact())
                 .setPassword(savedCustomer.getPassword())
                 .setRole(savedCustomer.getRole())
-                .setAddress(savedCustomer.getAddress())
+                .setAddresses(savedCustomer.getAddresses())
                 .build();
         System.out.println("Saved Customer : " + customer);
     }
@@ -62,14 +64,19 @@ class CustomerControllerTest {
         String url = get_URL("/read/"+savedCustomer.getUserId());
         System.out.println("URL : " + url);
         ResponseEntity <Customer> response = restTemplate.getForEntity(url,Customer.class);
-        //assertEquals(customer.getUserId(),response.getBody().getUserId());
+        assertNotNull(response.getBody());
         System.out.println("READ: " + savedCustomer);
     }
 
     @Test
     @Order(3)
-    void update() {
-
+    void c_update() {
+        Customer updatedCustomer = new Customer.Builder().copy(savedCustomer).setFirstName("RupertUpdated").build();
+        String url = BASE_URL + "/update";
+        ResponseEntity<Customer> response = restTemplate.postForEntity(url, updatedCustomer, Customer.class);
+        assertNotNull(response.getBody());
+        assertEquals("RupertUpdated", response.getBody().getFirstName());
+        System.out.println("Updated Customer: " + response.getBody());
     }
 
     @Test
@@ -82,7 +89,7 @@ class CustomerControllerTest {
 
         // Check if the customer has been deleted
         ResponseEntity<Customer> response = restTemplate.getForEntity(get_URL("/read/" + savedCustomer.getUserId()), Customer.class);
-        assertNotNull(response.getBody());
+        assertNull(response.getBody());
         System.out.println("Customer " + savedCustomer.getUserId() + " successfully deleted!!!");
     }
 

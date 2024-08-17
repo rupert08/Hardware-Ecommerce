@@ -1,76 +1,43 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.io.Serializable;
 
 @Entity
-public class Admin extends User{
+@Table(name = "admin")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
+public class Admin extends User implements Serializable {
 
-    protected Admin() {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contactId", referencedColumnName = "contactId")
+    private Contact contact;
+
+    // Methods to manage features
+    public void manageCustomer(Customer customer) {
+        // Implementation for managing customer
     }
 
-    public Admin (Builder builder) {
-        this.userId = builder.userId;
-        this.username = builder.username;
-        this.password = builder.password;
-        this.role = builder.role;
-        this.contact = builder.contact;
+    public void manageOrder(Order order) {
+        // Implementation for managing order
     }
 
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", contact=" + contact +
-                '}';
+    public void manageProduct(Product product) {
+        // Implementation for managing product
     }
 
-    public static class Builder {
-        private long userId;
-        private String username;
-        private String password;
-        private String role;
-        private Contact contact;
+    public void manageCategory(Category category) {
+        // Implementation for managing category
+    }
 
-        public Builder setUserId(long userId) {
-            this.userId = userId;
-            return this;
-        }
-
-        public Builder setUsername(String username) {
-            this.username = username;
-            return this;
-        }
-
-        public Builder setPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder setRole(String role) {
-            this.role = role;
-            return this;
-        }
-
-        public Builder setContact(Contact contact) {
-            this.contact = contact;
-            return this;
-        }
-
-        public Builder copy (Admin admin) {
-            this.userId = admin.userId;
-            this.username = admin.username;
-            this.password = admin.password;
-            this.role = admin.role;
-            this.contact = admin.contact;
-            return this;
-        }
-
-        public Admin build() {
-            return new Admin(this);
-        }
+    public void manageShipping(Shipping shipping) {
+        // Implementation for managing shipping
     }
 }
-

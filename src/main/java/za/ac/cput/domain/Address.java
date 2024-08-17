@@ -1,16 +1,17 @@
+// Address.java
 package za.ac.cput.domain;
 
-
-
-import jakarta.persistence.Embeddable;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
-public class
-Address implements Serializable {
+@Entity
+public class Address implements Serializable {
+    @Id
     private String streetNumber;
     private String unitNumber;
     private String complexNumber;
@@ -21,9 +22,15 @@ Address implements Serializable {
     private String state;
     private String postalCode;
 
-    protected Address() {}
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    public Address (Builder builder) {
+    // Default constructor
+    public Address() {}
+
+    // Builder constructor
+    private Address(Builder builder) {
         this.streetNumber = builder.streetNumber;
         this.unitNumber = builder.unitNumber;
         this.complexNumber = builder.complexNumber;
@@ -33,8 +40,10 @@ Address implements Serializable {
         this.city = builder.city;
         this.state = builder.state;
         this.postalCode = builder.postalCode;
+        this.customer = builder.customer;
     }
 
+    // Getters
     public String getStreetNumber() {
         return streetNumber;
     }
@@ -71,38 +80,52 @@ Address implements Serializable {
         return postalCode;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(streetNumber, address.streetNumber) && Objects.equals(unitNumber, address.unitNumber) && Objects.equals(complexNumber, address.complexNumber) && Objects.equals(complexName, address.complexName) && Objects.equals(apartmentNumber, address.apartmentNumber) && Objects.equals(streetName, address.streetName) && Objects.equals(city, address.city) && Objects.equals(state, address.state) && Objects.equals(postalCode, address.postalCode);
+    public Customer getCustomer() {
+        return customer;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(streetNumber, unitNumber, complexNumber, complexName, apartmentNumber, streetName, city, state, postalCode);
+    // Setters
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Address{");
-
-        if (streetNumber != null && !streetNumber.isEmpty()) sb.append("streetNumber='").append(streetNumber).append('\'');
-        if (unitNumber != null && !unitNumber.isEmpty()) sb.append(", unitNumber='").append(unitNumber).append('\'');
-        if (complexNumber != null && !complexNumber.isEmpty()) sb.append(", complexNumber='").append(complexNumber).append('\'');
-        if (complexName != null && !complexName.isEmpty()) sb.append(", complexName='").append(complexName).append('\'');
-        if (apartmentNumber != null && !apartmentNumber.isEmpty()) sb.append(", apartmentNumber='").append(apartmentNumber).append('\'');
-        if (streetName != null && !streetName.isEmpty()) sb.append(", streetName='").append(streetName).append('\'');
-        if (city != null && !city.isEmpty()) sb.append(", city='").append(city).append('\'');
-        if (state != null && !state.isEmpty()) sb.append(", state='").append(state).append('\'');
-        if (postalCode != null && !postalCode.isEmpty()) sb.append(", postalCode='").append(postalCode).append('\'');
-
-        sb.append('}');
-        return sb.toString();
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
     }
 
+    public void setComplexNumber(String complexNumber) {
+        this.complexNumber = complexNumber;
+    }
+
+    public void setComplexName(String complexName) {
+        this.complexName = complexName;
+    }
+
+    public void setApartmentNumber(String apartmentNumber) {
+        this.apartmentNumber = apartmentNumber;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    // Builder class
     public static class Builder {
         private String streetNumber;
         private String unitNumber;
@@ -113,6 +136,7 @@ Address implements Serializable {
         private String city;
         private String state;
         private String postalCode;
+        private Customer customer;
 
         public Builder setStreetNumber(String streetNumber) {
             this.streetNumber = streetNumber;
@@ -159,21 +183,51 @@ Address implements Serializable {
             return this;
         }
 
-        public Builder copy (Address address) {
-            this.streetNumber = address.streetNumber;
-            this.unitNumber = address.unitNumber;
-            this.complexNumber = address.complexNumber;
-            this.complexName = address.complexName;
-            this.apartmentNumber = address.apartmentNumber;
-            this.streetName = address.streetName;
-            this.city = address.city;
-            this.state = address.state;
-            this.postalCode = address.postalCode;
+        public Builder setCustomer(Customer customer) {
+            this.customer = customer;
             return this;
         }
 
         public Address build() {
             return new Address(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(streetNumber, address.streetNumber) &&
+                Objects.equals(unitNumber, address.unitNumber) &&
+                Objects.equals(complexNumber, address.complexNumber) &&
+                Objects.equals(complexName, address.complexName) &&
+                Objects.equals(apartmentNumber, address.apartmentNumber) &&
+                Objects.equals(streetName, address.streetName) &&
+                Objects.equals(city, address.city) &&
+                Objects.equals(state, address.state) &&
+                Objects.equals(postalCode, address.postalCode) &&
+                Objects.equals(customer, address.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(streetNumber, unitNumber, complexNumber, complexName, apartmentNumber, streetName, city, state, postalCode, customer);
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "streetNumber='" + streetNumber + '\'' +
+                ", unitNumber='" + unitNumber + '\'' +
+                ", complexNumber='" + complexNumber + '\'' +
+                ", complexName='" + complexName + '\'' +
+                ", apartmentNumber='" + apartmentNumber + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", customer=" + customer +
+                '}';
     }
 }

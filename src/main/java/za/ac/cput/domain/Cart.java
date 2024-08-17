@@ -1,3 +1,4 @@
+// Cart.java
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+//add comments to the class
 
 @Entity
 @Table(name = "carts")
@@ -16,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@ToString/*(exclude = {"cartItems"})*/
+@ToString
 @EqualsAndHashCode
 public class Cart implements Serializable {
 
@@ -24,45 +26,45 @@ public class Cart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "customer_id") // Adjusted column name for consistency
+    @OneToOne
+    @JoinColumn(name = "userID")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private int itemsQuantity;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
+    //floats values should be giving values with 2 decimal places
+    @Column(columnDefinition = "DECIMAL(7,2)")
+    private BigDecimal totalPrice;
 
-    private int itemsQuantity = 0;
-    private float totalPrice = 0.0f;
-
-    public void addCartItem(CartItem cartItem) {
-        if (cartItem == null || cartItem.getCart() != this) {
-            throw new IllegalArgumentException("Invalid CartItem or CartItem does not belong to this Cart.");
-        }
-        this.cartItems.add(cartItem);
-        cartItem.setCart(this);
-        calculateTotals();
+    // Add item to cart
+    public void addItem(CartItem item) {
+        cartItems.add(item);
+        item.setCart(this);
+        updateItemsQuantity();
+        calculateTotalPrice();
     }
 
-    public void removeCartItem(CartItem cartItem) {
-        if (cartItems.remove(cartItem)) {
-            cartItem.setCart(null);
-            calculateTotals();
-        }
+    // Remove item from cart
+    public void removeItem(CartItem item) {
+        cartItems.remove(item);
+        item.setCart(null);
+        updateItemsQuantity();
+        calculateTotalPrice();
+    }
+//add comments in the class
+
+    // Recalculate total price as a float
+
+    public void calculateTotalPrice() {
+        totalPrice = cartItems.stream()
+                .map(CartItem::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public void calculateTotals() {
-        itemsQuantity = 0;
-        totalPrice = 0.0f;
-        for (CartItem cartItem : cartItems) {
-            itemsQuantity += cartItem.getQuantity();
-            totalPrice += cartItem.getItemTotalPrice();
-        }
-        totalPrice = roundToTwoDecimalPlaces(totalPrice);
-    }
-    // To Make sure the float returns only 2 decimal places to the right
-    private float roundToTwoDecimalPlaces(float value) {
-        BigDecimal bd = new BigDecimal(Float.toString(value));
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        return bd.floatValue();
+    private void updateItemsQuantity() {
+        itemsQuantity = cartItems.size();
     }
 }

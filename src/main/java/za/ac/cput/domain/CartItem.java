@@ -1,9 +1,12 @@
+// CartItem.java
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "cart_items")
@@ -31,16 +34,24 @@ public class CartItem implements Serializable {
     @Column(nullable = false)
     private int quantity;
 
-    private float itemTotalPrice;
+    private  BigDecimal itemTotalPrice;
+
+    // Calculate item total price,scale to 2 decimal places
 
     public void calculateItemTotalPrice() {
         if (quantity < 0) {
-            throw new IllegalArgumentException("Quantity can not be less than zero.");
+            throw new IllegalArgumentException("Quantity cannot be negative");
         }
         if (product != null) {
-            this.itemTotalPrice = product.getPrice() * quantity;
+            itemTotalPrice = product.getPrice()
+                    .multiply(BigDecimal.valueOf(quantity))
+                    .setScale(2, RoundingMode.HALF_UP);
         } else {
-            this.itemTotalPrice = 0;
+            itemTotalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         }
+    }
+
+    public BigDecimal getPrice() {
+        return itemTotalPrice;
     }
 }

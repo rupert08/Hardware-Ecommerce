@@ -1,8 +1,11 @@
+// Product.java
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Blob;
 import java.util.List;
 
@@ -26,8 +29,11 @@ public class Product {
 
     private String description;
 
-    @Column(nullable = false)
-    private float price;
+
+    @Column(nullable = false,columnDefinition = "DECIMAL(7,2)")
+    // Changed from float to BigDecimal to make sure there is 2 decimal places
+    private BigDecimal price;
+
 
     @Lob
     private Blob image;

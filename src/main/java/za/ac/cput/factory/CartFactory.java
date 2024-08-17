@@ -19,11 +19,12 @@ public class CartFactory {
                 .cartItems(cartItems != null ? cartItems : new ArrayList<>())
                 .build();
 
-        cart.calculateTotals();
+        cart.calculateTotalPrice();
         return cart;
     }
 
     public static Cart createCart(Customer customer) {
+
         return createCart(customer, new ArrayList<>());
     }
 
@@ -31,13 +32,13 @@ public class CartFactory {
         Helper.checkNullParam(cart);
         Helper.checkNullParam(cartItem);
         CartHelper.checkValidItemsQuantity(cart.getCartItems().size() + 1);
-        cart.addCartItem(cartItem);
+        cart.addItem(cartItem);
     }
 
     public static void removeCartItem(Cart cart, CartItem cartItem) {
         Helper.checkNullParam(cart);
         Helper.checkNullParam(cartItem);
         CartHelper.checkValidItemsQuantity(cart.getCartItems().size() - 1);
-        cart.removeCartItem(cartItem);
+        cart.removeItem(cartItem);
     }
 }

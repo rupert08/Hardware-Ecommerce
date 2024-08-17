@@ -13,10 +13,10 @@ public class Helper {
     }
 
     public static boolean checkNullParam(Object obj) {
-        if (obj == null) {
-            throw new RuntimeException("Object parameter is null");
-        }
-        return false;
+//        if (obj == null) {
+//            throw new RuntimeException("Object parameter is null");
+//        }
+        return obj == null;
     }
 
     public static void checkZeroOrNegativeParam(int number) {

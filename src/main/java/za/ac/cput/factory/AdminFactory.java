@@ -7,8 +7,13 @@ import za.ac.cput.util.Helper;
 public class AdminFactory {
     public static Admin createAdmin(String username, String password, String role, Contact contact) {
         if (Helper.isNullOrEmpty(username) || Helper.isNullOrEmpty(password)|| Helper.isNullOrEmpty(role)) {
-            return null;
+            throw new IllegalArgumentException("Invalid parameters");
         }
-        return new Admin.Builder().setUsername(username).setPassword(password).setRole(role).setContact(contact).build();
+        return Admin.builder()
+                .username(username)
+                .password(password)
+                .role(role)
+                .contact(contact)
+                .build();
     }
 }

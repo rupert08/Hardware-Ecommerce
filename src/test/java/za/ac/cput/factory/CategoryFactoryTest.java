@@ -6,6 +6,7 @@ import za.ac.cput.domain.Category;
 import za.ac.cput.domain.Product;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Blob;
@@ -33,14 +34,14 @@ public class CategoryFactoryTest {
         product1 = Product.builder()
                 .name("Power Drill")
                 .description("High-speed power drill for home and professional use")
-                .price(699.99f)
+                .price((699.99f))
                 .image(imageBlob)
                 .build();
 
         product2 = Product.builder()
                 .name("Electric Saw")
                 .description("Efficient electric saw for cutting wood and metal")
-                .price(499.99f)
+                .price((499.99f))
                 .image(imageBlob)
                 .build();
     }

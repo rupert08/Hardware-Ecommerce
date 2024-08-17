@@ -1,9 +1,7 @@
+// CustomerServiceTest.java
 package za.ac.cput.service;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Address;
@@ -13,28 +11,32 @@ import za.ac.cput.factory.AddressFactory;
 import za.ac.cput.factory.ContactFactory;
 import za.ac.cput.factory.CustomerFactory;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
-    private static Contact contact = ContactFactory.createContact("john1@gmail.com","02189456123");
-    private static Address address = AddressFactory.createAddress("21","","","",
-            "","Moses","Capetown","Western Cape","7646");
+    private static Contact contact = ContactFactory.createContact("john1@gmail.com", "02189456123");
+    private static Address address = AddressFactory.createAddress("21", "", "", "",
+            "", "Moses", "Capetown", "Western Cape", "7646");
 
-    private static Customer customer = CustomerFactory.createCustomer2(contact.getEmail(), "John","Wick",contact,"123456","Customer",address);
+    // Ensure the email address is valid
+    private static Customer customer = CustomerFactory.createCustomer2("john1@gmail.com", "John", "Wick", contact, "123456", "Customer", Collections.singletonList(address));
 
     @Test
+    @Order(1)
     void a_create() {
-
         Customer created = customerService.create(customer);
         assertNotNull(created);
         System.out.println(created);
     }
 
     @Test
+    @Order(2)
     void b_read() {
         Customer read = customerService.read(customer.getUserId());
         assertNotNull(read);
@@ -42,6 +44,7 @@ class CustomerServiceTest {
     }
 
     @Test
+    @Order(3)
     void c_update() {
         Customer newCustomer = new Customer.Builder().copy(customer).setFirstName("Johnathan").build();
         Customer updated = customerService.update(newCustomer);
@@ -51,12 +54,14 @@ class CustomerServiceTest {
 
     @Test
     @Disabled
+    @Order(4)
     void d_delete() {
         customerService.delete(customer.getUserId());
-        System.out.println("Customer Deleted Where User ID = "+ customer.getUserId() );
+        System.out.println("Customer Deleted Where User ID = " + customer.getUserId());
     }
 
     @Test
+    @Order(5)
     void e_getAll() {
         System.out.println(customerService.getAll());
     }

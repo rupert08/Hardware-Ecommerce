@@ -7,6 +7,9 @@ import za.ac.cput.util.AddressHelper;
 import za.ac.cput.util.ContactHelper;
 import za.ac.cput.util.Helper;
 
+import java.util.Collections;
+import java.util.List;
+
 public class CustomerFactory {
     public static Customer createCustomer1(String username, String password, String role) {
         if (ContactHelper.isValidEmail(username) || Helper.isNullOrEmpty(password) || Helper.isNullOrEmpty(role)) {
@@ -26,43 +29,38 @@ public class CustomerFactory {
                 .build();
     }
 
-    public static Customer createCustomer2(String username, String firstname, String lastname, Contact contact, String password, String role, Address address) {
-if( address != null){
-    if (ContactHelper.isValidEmail(username) || Helper.isNullOrEmpty(firstname) || Helper.isNullOrEmpty(lastname) || Helper.isNullOrEmpty(String.valueOf(contact)) || Helper.isNullOrEmpty(password)
-            || Helper.isNullOrEmpty(role) ) {
-        throw new RuntimeException("Customer can not have Illegal/null values in required fields");
-    }
-    if (Helper.isNullOrEmpty(address.getPostalCode())) {
-        throw new IllegalArgumentException("Postal Code can not be Empty.");
-            }
-    if (!AddressHelper.isValidPostalCode(address.getPostalCode())) {
-        throw new IllegalArgumentException("Postal Code can Not be less then 4 character or more then 5");
-            }
-    return new Customer.Builder()
-            .setUsername(username)
-            .setFirstName(firstname)
-            .setLastName(lastname)
-            .setContact(contact)
-            .setPassword(password)
-            .setRole(role)
-            .setAddress(address)
-            .build();
 
-
-
-}
-else  {
-    return new Customer.Builder()
-            .setUsername(username)
-            .setFirstName(firstname)
-            .setLastName(lastname)
-            .setContact(contact)
-            .setPassword(password)
-            .setRole(role)
-            .build();
-
-}
-
+    public static Customer createCustomer2(String username, String firstname, String lastname, Contact contact, String password, String role, List <Address> addresses) {
+        if (ContactHelper.isValidEmail(username)) {
+            throw new IllegalArgumentException("Invalid username ");
+        }
+        if (Helper.isNullOrEmpty(firstname)) {
+            throw new IllegalArgumentException("First name cannot be null or empty");
+        }
+        if (Helper.isNullOrEmpty(lastname)) {
+            throw new IllegalArgumentException("Last name cannot be null or empty");
+        }
+        if (contact == null) {
+            throw new IllegalArgumentException("Contact cannot be null");
+        }
+        if (Helper.isNullOrEmpty(password)) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+        if (Helper.isNullOrEmpty(role)) {
+            throw new IllegalArgumentException("Role cannot be null or empty");
+        }
+        if (addresses == null) {
+            addresses = Collections.emptyList();
+        }
+        return new Customer.Builder()
+                .setUsername(username)
+                .setFirstName(firstname)
+                .setLastName(lastname)
+                .setContact(contact)
+                .setPassword(password)
+                .setRole(role)
+                .setAddresses(addresses)
+                .build();
     }
 
 }

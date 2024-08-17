@@ -1,27 +1,29 @@
 package za.ac.cput.factory;
 
-import za.ac.cput.domain.Address;
+import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Order;
+import za.ac.cput.domain.Shipping;
 import za.ac.cput.util.Helper;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Set;
 
 public class OrderFactory {
 
-    public static Order buildOrder(long userID, LocalDate orderDate, Address address, float totalAmount, String orderStatus) {
-        if (Helper.isNullOrEmpty(String.valueOf(userID)) || Helper.isNullOrEmpty(String.valueOf(orderDate))
-                || Helper.isNullOrEmpty(String.valueOf(address)) || Helper.isNullOrEmpty(String.valueOf(totalAmount))
-                || Helper.isNullOrEmpty(orderStatus) ) {
-            return null;
+    public static Order buildOrder(Cart cart, LocalDate orderDate, Shipping shipping, BigDecimal totalAmount, String orderStatus) {
+        if (Helper.isNullOrEmpty(String.valueOf(cart)) || Helper.isNullOrEmpty(String.valueOf(orderDate))
+                || Helper.isNullOrEmpty(String.valueOf(shipping)) || Helper.isNullOrEmpty(String.valueOf(totalAmount))
+                || Helper.isNullOrEmpty(orderStatus)) {
+            throw new IllegalArgumentException("Invalid parameters");
         }
 
-        return new Order.Builder()
-                .setUserID(userID)
-                .setOrderDate(orderDate)
-                .setDeliveryAddress(address)
-                .setTotalAmount(totalAmount)
-                .setOrderStatus(orderStatus)
+        return Order.builder()
+                .cart(cart)
+                .orderDate(orderDate)
+                .shipping(shipping)
+                .totalAmount(totalAmount.setScale(2, RoundingMode.HALF_UP))
+                .orderStatus(orderStatus)
                 .build();
     }
 }
-

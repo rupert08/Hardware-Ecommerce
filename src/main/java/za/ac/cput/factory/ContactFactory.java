@@ -9,15 +9,10 @@ public class ContactFactory {
 
     public static Contact createContact(String email, String phoneNumber) {
         if (ContactHelper.isValidEmail(email)) {
-            throw  new IllegalArgumentException("Check Validation- " +
-                    "Make sure Values are correct and are not null for email");
+            throw  new IllegalArgumentException("Invalid email");
         }
-        if(!Helper.isNullOrEmpty(phoneNumber)){
-            if(!ContactHelper.isValidPhoneNumber(phoneNumber)) {
-                throw  new IllegalArgumentException("Check Validation- " +
-                        "Make sure Values are correct and are not null for Phone number!!!");
-
-            }
+        if(!Helper.isNullOrEmpty(phoneNumber) && !ContactHelper.isValidPhoneNumber(phoneNumber)){
+                throw  new IllegalArgumentException("Invalid phone number");
         }
         return new Contact.Builder()
                 .setEmail(email)

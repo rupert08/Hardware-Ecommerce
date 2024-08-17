@@ -1,9 +1,6 @@
 package za.ac.cput.service;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Category;
@@ -12,6 +9,7 @@ import za.ac.cput.factory.CategoryFactory;
 import za.ac.cput.factory.ProductFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -41,6 +39,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @Order(1)
     void a_create() {
         Product created = productService.create(product);
         assertNotNull(created);
@@ -48,6 +47,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @Order(2)
     void b_read() {
         Product read = productService.read(product.getProductId());
         assertNotNull(read);
@@ -55,6 +55,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @Order(3)
     @Disabled
     void c_delete() {
         productService.delete(product.getProductId());
@@ -62,6 +63,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @Order(4)
     void d_getAll() {
         productService.getAll();
         System.out.println(productService.getAll());

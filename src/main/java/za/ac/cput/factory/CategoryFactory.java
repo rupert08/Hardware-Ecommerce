@@ -13,20 +13,26 @@ import java.util.Set;
 public class CategoryFactory {
 
     public static Category createCategory(String name, String description, String imagePath, Set<Product> products) throws Exception {
-       Blob imageBlob = null;
+        // Check if the imagePath is null or empty and set a default string if true
+        Blob imageBlob = null;
         if (imagePath != null && !imagePath.isEmpty()) {
-            byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-            imageBlob = new SerialBlob(imageBytes);
-        }
-        else {
-
+            // Attempt to read the image file and create a Blob if the path is valid
+            try {
+                byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+                imageBlob = new SerialBlob(imageBytes);
+            } catch (Exception e) {
+                // Handle potential file reading issues (e.g., file not found)
+                System.out.println("Image not found or invalid path: " + imagePath+ " " + e.getMessage());
+                imagePath = "image not found or invalid path";
+            }
+        } else {
+            // Default message for invalid image paths
             imagePath = "image not found or invalid path";
             System.out.println(imagePath);
-
         }
 
         if(Helper.isNullOrEmpty(name)){
-            throw new Exception("Category name cannot be null/empty");
+            throw new IllegalArgumentException("Category name cannot be null/empty");
         }
         if(Helper.isNullOrEmpty(description)){
             description = "no description";
