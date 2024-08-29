@@ -7,6 +7,7 @@ import za.ac.cput.service.CategoryService;
 
 import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -38,7 +39,7 @@ public class CategoryController {
         categoryService.delete(id);
     }
 
-    @GetMapping("/all")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
     public Set<Category> getAllCategories() {
         return categoryService.getAll();
     }

@@ -26,8 +26,8 @@ public class Category implements Serializable {
     private String name;
     private String description;
 
-    @Lob
-    private Blob image;
+    //@Lob
+    //private String image;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();

@@ -20,14 +20,16 @@ public class CartItemFactoryTest {
     @BeforeEach
     void setUp() {
         contact = ContactFactory.createContact("john@gmail.com","0713136699");
-        customer = CustomerFactory.createCustomer2("john@gmail.com","john","snow",contact,"123456","Customer",null);
+        customer = CustomerFactory.createCustomer("john@gmail.com","john","snow",contact,"123456",null);
+
+        // Refactor: Use BigDecimal for the product price
         product = Product.builder()
                 .name("Hammer")
                 .description("Heavy-duty hammer")
-                .price((199.99f))
+                .price(BigDecimal.valueOf(199.99)) // Use BigDecimal.valueOf() to set price
                 .build();
 
-        cart = CartFactory.createCart(customer); // Creating cart with null customer
+        cart = CartFactory.createCart(customer); // Creating cart with customer
     }
 
     @Test
@@ -40,7 +42,7 @@ public class CartItemFactoryTest {
 //        assertEquals(product, cartItem.getProduct());
 //        assertEquals(cart, cartItem.getCart());
 //        assertEquals(2, cartItem.getQuantity());
-//        assertEquals(399.98f, cartItem.getItemTotalPrice());
+//        assertEquals(BigDecimal.valueOf(399.98), cartItem.getItemTotalPrice()); // Corrected to BigDecimal
 
         System.out.println("CartItem: " + cartItem);
     }
@@ -48,17 +50,17 @@ public class CartItemFactoryTest {
     @Test
     @Order(2)
     void createCartItemWithInvalidQuantity() {
-        CartItem cartItem =CartItemFactory.createCartItem(product, cart, -1);
+        CartItem cartItem = CartItemFactory.createCartItem(product, cart, -1);
         assertNotNull(cartItem);
-        System.out.println( cartItem);
+        System.out.println(cartItem);
     }
 
     @Test
     @Order(3)
     void createCartItemWithoutProduct() {
-        CartItem cartItem =CartItemFactory.createCartItem(null, cart, 2);
+        CartItem cartItem = CartItemFactory.createCartItem(null, cart, 2);
         assertNotNull(cartItem);
 
-        System.out.println("Exception: " + cartItem);
+        System.out.println("CartItem without product: " + cartItem);
     }
 }

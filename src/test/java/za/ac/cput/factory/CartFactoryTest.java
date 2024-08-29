@@ -24,7 +24,7 @@ public class CartFactoryTest {
     void setUp() {
         // Mock data for customer and cart items
         Contact contact = ContactFactory.createContact("john.doe@example.com", "0783139988");
-        customer = CustomerFactory.createCustomer1(contact.getEmail(), "123456", "Customer");
+        customer = CustomerFactory.createCustomer(contact.getEmail(), "123456");
 
         // Create the Cart object
         cart = CartFactory.createCart(customer);
@@ -33,13 +33,13 @@ public class CartFactoryTest {
         Product product1 = Product.builder()
                 .name("Hammer")
                 .description("Heavy-duty hammer")
-                .price((199.99f))
+                .price(BigDecimal.valueOf(199.99))  // Fixed: Use BigDecimal.valueOf()
                 .build();
 
         Product product2 = Product.builder()
                 .name("Wrench")
                 .description("Adjustable wrench")
-                .price((149.99f))
+                .price(BigDecimal.valueOf(149.99))  // Fixed: Use BigDecimal.valueOf()
                 .build();
 
         cartItem1 = CartItemFactory.createCartItem(product1, cart, 2);
@@ -57,10 +57,10 @@ public class CartFactoryTest {
 
         assertNotNull(newCart);
         assertNotNull(newCart.getCartItems());
-//        assertFalse(newCart.getCartItems().isEmpty());
-//        assertEquals(2, newCart.getCartItems().size());
-//        assertEquals(3, newCart.getItemsQuantity());
-//        assertEquals(549.97f, newCart.getTotalPrice(), 0.01f);
+        //assertFalse(newCart.getCartItems().isEmpty());
+        //assertEquals(2, newCart.getCartItems().size());
+        //assertEquals(3, newCart.getItemsQuantity());
+        //assertEquals(BigDecimal.valueOf(549.97), newCart.getTotalPrice());  // Corrected for BigDecimal
 
         System.out.println("Cart: " + newCart);
     }
@@ -72,9 +72,9 @@ public class CartFactoryTest {
         CartFactory.addCartItem(cart, cartItem2);
 
         assertNotNull(cart);
-//        assertEquals(2, cart.getCartItems().size());
-//        assertEquals(3, cart.getItemsQuantity());
-//        assertEquals(549.97f, cart.getTotalPrice(), 0.01f);
+        //assertEquals(2, cart.getCartItems().size());
+        //assertEquals(3, cart.getItemsQuantity());
+        //assertEquals(BigDecimal.valueOf(549.97), cart.getTotalPrice());  // Corrected for BigDecimal
 
         System.out.println("Cart after adding items: " + cart);
     }
@@ -90,9 +90,9 @@ public class CartFactoryTest {
         CartFactory.removeCartItem(newCart, cartItem1);
 
         assertNotNull(newCart);
-//               assertEquals(1, newCart.getCartItems().size());
-//        assertEquals(1, newCart.getItemsQuantity());
-//        assertEquals(149.99f, newCart.getTotalPrice(), 0.01f);
+        //assertEquals(1, newCart.getCartItems().size());
+        //assertEquals(1, newCart.getItemsQuantity());
+        //assertEquals(BigDecimal.valueOf(149.99), newCart.getTotalPrice());  // Corrected for BigDecimal
 
         System.out.println("Cart after removing an item: " + newCart);
     }

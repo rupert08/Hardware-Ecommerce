@@ -2,6 +2,7 @@ package za.ac.cput.factory;
 
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Order;
+import za.ac.cput.domain.OrderStatus;
 import za.ac.cput.domain.Shipping;
 import za.ac.cput.util.Helper;
 
@@ -11,10 +12,10 @@ import java.time.LocalDate;
 
 public class OrderFactory {
 
-    public static Order buildOrder(Cart cart, LocalDate orderDate, Shipping shipping, BigDecimal totalAmount, String orderStatus) {
+    public static Order buildOrder(Cart cart, LocalDate orderDate, Shipping shipping, BigDecimal totalAmount, OrderStatus orderStatus) {
         if (Helper.isNullOrEmpty(String.valueOf(cart)) || Helper.isNullOrEmpty(String.valueOf(orderDate))
                 || Helper.isNullOrEmpty(String.valueOf(shipping)) || Helper.isNullOrEmpty(String.valueOf(totalAmount))
-                || Helper.isNullOrEmpty(orderStatus)) {
+                || Helper.isNullOrEmpty(String.valueOf(orderStatus))) {
             throw new IllegalArgumentException("Invalid parameters");
         }
 
@@ -23,7 +24,7 @@ public class OrderFactory {
                 .orderDate(orderDate)
                 .shipping(shipping)
                 .totalAmount(totalAmount.setScale(2, RoundingMode.HALF_UP))
-                .orderStatus(orderStatus)
+                .orderStatus(OrderStatus.valueOf(String.valueOf(orderStatus)))
                 .build();
     }
 }

@@ -1,4 +1,3 @@
-// CustomerServiceTest.java
 package za.ac.cput.service;
 
 import org.junit.jupiter.api.*;
@@ -18,14 +17,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerServiceTest {
-    @Autowired
-    CustomerService customerService;
-    private static Contact contact = ContactFactory.createContact("john1@gmail.com", "02189456123");
-    private static Address address = AddressFactory.createAddress("21", "", "", "",
-            "", "Moses", "Capetown", "Western Cape", "7646");
 
-    // Ensure the email address is valid
-    private static Customer customer = CustomerFactory.createCustomer2("john1@gmail.com", "John", "Wick", contact, "123456", "Customer", Collections.singletonList(address));
+    @Autowired
+    private CustomerService customerService;
+
+    private static final Contact contact = ContactFactory.createContact("testCust1@gmail.com", "02189456123");
+    private static final Address address = AddressFactory.createAddress("12", "Test Street", "Grabouw", "Western Cape", "7160");
+
+    private static final Customer customer = CustomerFactory.createCustomer(
+            "testCust@gmail.com", "John", "Wick", contact, "123456",  Collections.singletonList(address));
 
     @Test
     @Order(1)
@@ -46,7 +46,9 @@ class CustomerServiceTest {
     @Test
     @Order(3)
     void c_update() {
-        Customer newCustomer = new Customer.Builder().copy(customer).setFirstName("Johnathan").build();
+        Customer newCustomer = customer.toBuilder()
+                .firstName("Johnathan")
+                .build();
         Customer updated = customerService.update(newCustomer);
         assertNotNull(updated);
         System.out.println(updated);

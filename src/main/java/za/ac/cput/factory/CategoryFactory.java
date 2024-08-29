@@ -12,24 +12,24 @@ import java.util.HashSet;
 import java.util.Set;
 public class CategoryFactory {
 
-    public static Category createCategory(String name, String description, String imagePath, Set<Product> products) throws Exception {
+    public static Category createCategory(String name, String description, /*String imagePath,*/ Set<Product> products) throws Exception {
         // Check if the imagePath is null or empty and set a default string if true
-        Blob imageBlob = null;
-        if (imagePath != null && !imagePath.isEmpty()) {
-            // Attempt to read the image file and create a Blob if the path is valid
-            try {
-                byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-                imageBlob = new SerialBlob(imageBytes);
-            } catch (Exception e) {
-                // Handle potential file reading issues (e.g., file not found)
-                System.out.println("Image not found or invalid path: " + imagePath+ " " + e.getMessage());
-                imagePath = "image not found or invalid path";
-            }
-        } else {
-            // Default message for invalid image paths
-            imagePath = "image not found or invalid path";
-            System.out.println(imagePath);
-        }
+//        Blob imageBlob = null;
+//        if (imagePath != null && !imagePath.isEmpty()) {
+//            // Attempt to read the image file and create a Blob if the path is valid
+//            try {
+//                byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+//                imageBlob = new SerialBlob(imageBytes);
+//            } catch (Exception e) {
+//                // Handle potential file reading issues (e.g., file not found)
+//                System.out.println("Image not found or invalid path: " + imagePath+ " " + e.getMessage());
+//                imagePath = "image not found or invalid path";
+//            }
+//        } else {
+//            // Default message for invalid image paths
+//            imagePath = "image not found or invalid path";
+//            System.out.println(imagePath);
+//        }
 
         if(Helper.isNullOrEmpty(name)){
             throw new IllegalArgumentException("Category name cannot be null/empty");
@@ -45,7 +45,7 @@ public class CategoryFactory {
         Category category = Category.builder()
                 .name(name)
                 .description(description)
-                .image(imageBlob)
+                //.image(imagePath)
                 .products(products)
                 .build();
 //        if (products != null) {
@@ -55,8 +55,8 @@ public class CategoryFactory {
 //        }
         return category;
     }
-    public static Category createCategoryWithoutProducts(String name, String description, String imagePath) throws Exception {
-        return createCategory(name, description, imagePath, new HashSet<>());
+    public static Category createCategoryWithoutProducts(String name, String description/*, String imagePath*/) throws Exception {
+        return createCategory(name, description, /*imagePath,*/ new HashSet<>());
     }
 
 }

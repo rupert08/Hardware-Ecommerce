@@ -14,9 +14,9 @@ public class ContactFactory {
         if(!Helper.isNullOrEmpty(phoneNumber) && !ContactHelper.isValidPhoneNumber(phoneNumber)){
                 throw  new IllegalArgumentException("Invalid phone number");
         }
-        return new Contact.Builder()
-                .setEmail(email)
-                .setPhoneNumber(phoneNumber)
+        return  Contact.builder()
+                .email(email)
+                .phoneNumber(phoneNumber)
                 .build();
     }
 

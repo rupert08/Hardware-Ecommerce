@@ -7,8 +7,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import za.ac.cput.domain.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,25 +18,28 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class OrderFactoryTest {
 
+    Contact contact = ContactFactory.createContact("john1@gmail.com", "0818945600");
+    Customer customer = CustomerFactory.createCustomer(contact.getEmail(),"123456", "John", "Wick", contact);
+
+
     private Cart createValidCart() {
         Contact contact = ContactFactory.createContact("john.doe@example.com", "0783139988");
-        Customer customer = CustomerFactory.createCustomer1(contact.getEmail(), "123456", "Customer");
+        Customer customer = CustomerFactory.createCustomer(contact.getEmail(), "123456");
         return CartFactory.createCart(customer);
     }
 
     private Shipping createValidShipping() {
-        Address address = AddressFactory.createAddress("21", "", "", "", "", "Main Street", "Capetown", "Western Cape", "8008");
-        return ShippingFactory.createShipping(address, OrderStatus.PENDING, 50.0f);
+        Address address = AddressFactory.createAddress("21", "", "", "", "", "Main Street", "Capetown", "Western Cape", "8008", customer);
+        return ShippingFactory.createShipping(address, OrderStatus.PENDING, BigDecimal.valueOf(50.0));
     }
 
     @Test
-    @org.springframework.core.annotation.Order(1)
-    void testBuildOrderWithAllFields() {
+    void a_testBuildOrderWithAllFields() {
         Cart cart = createValidCart();
         Shipping shipping = createValidShipping();
         LocalDate orderDate = LocalDate.now();
-        float totalAmount = 500.0f;
-        String orderStatus = "Pending";
+        BigDecimal totalAmount = BigDecimal.valueOf(500.0);
+        OrderStatus orderStatus = OrderStatus.PENDING;
 
         Order order =  OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount, orderStatus);
         assertNotNull(order);
@@ -43,15 +47,14 @@ class OrderFactoryTest {
     }
 
     @Test
-    @org.springframework.core.annotation.Order(2)
-    void testBuildOrderWithEmptyOrderItems() {
+    void b_testBuildOrderWithEmptyOrderItems() {
         Cart cart = createValidCart();
         Shipping shipping = createValidShipping();
         LocalDate orderDate = LocalDate.now();
-        float totalAmount = 500.0f;
-        String orderStatus = null;
+        BigDecimal totalAmount = BigDecimal.valueOf(500.0);
+        OrderStatus orderStatus = null;
 
-        Order order = (Order) OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount, orderStatus);
+        Order order = OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount, orderStatus);
         assertNotNull(order);
         System.out.println(order);
     }

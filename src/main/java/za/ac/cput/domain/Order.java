@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
+import static za.ac.cput.domain.PaymentMethod.CREDIT_CARD;
+import static za.ac.cput.domain.PaymentMethod.DEBIT_CARD;
+
+@SuppressWarnings({"ALL", "JpaAttributeTypeInspection"})
 @Entity
 @Table(name = "`order`")
 @Data
@@ -30,7 +34,9 @@ public class Order implements Serializable {
 
     private LocalDate orderDate;
     private BigDecimal totalAmount;
-    private String orderStatus;
+    private Payment paymentMethod;
+    private OrderStatus orderStatus;
+    private boolean shippedOrCollected;
 
     public void calculateTotalAmount() {
         if (cart != null) {

@@ -2,22 +2,23 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name = "admin")
+//@Table(name = "admin")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@SuperBuilder(toBuilder = true)  // Use @SuperBuilder instead of @Builder
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class Admin extends User implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contactId", referencedColumnName = "contactId")
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contactId")
     private Contact contact;
 
     // Methods to manage features

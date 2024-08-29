@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Order;
 import za.ac.cput.service.OrderService;
 import java.util.Set;
+@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
 @RestController
 @RequestMapping("/order")
 public class OrderController {
