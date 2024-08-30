@@ -14,8 +14,8 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 public class ProductFactory {
-    public static Product createProduct(String name, String description, BigDecimal price, String imagePath, Category category) throws Exception {
-        Blob imageBlob = null;
+    public static Product createProduct(String name, String description, BigDecimal price, /*String imagePath,*/ Category category) throws Exception {
+        //Blob imageBlob = null;
         if (Helper.isNullOrEmpty(name)) {
             throw new IllegalArgumentException("Product name cannot be null or empty");
         }
@@ -28,25 +28,25 @@ public class ProductFactory {
         if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Price cannot be null or negative");
         }
-        if (!Helper.isNullOrEmpty(imagePath)) {
-            try {
-                byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-                imageBlob = new SerialBlob(imageBytes);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to read Product image file: " + imagePath, e);
-            } catch (SQLException e) {
-                throw new RuntimeException("Failed to create Blob from image bytes", e);
-            }
-        } else {
-            imagePath = "Image path for " + name + " product was null or empty";
-            System.out.println(imagePath);
-        }
+//        if (!Helper.isNullOrEmpty(imagePath)) {
+//            try {
+//                byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+//                imageBlob = new SerialBlob(imageBytes);
+//            } catch (IOException e) {
+//                throw new RuntimeException("Failed to read Product image file: " + imagePath, e);
+//            } catch (SQLException e) {
+//                throw new RuntimeException("Failed to create Blob from image bytes", e);
+//            }
+//        } else {
+//            imagePath = "Image path for " + name + " product was null or empty";
+//            System.out.println(imagePath);
+   //     }
 
         return Product.builder()
                 .name(name)
                 .description(description)
                 .price(price.setScale(2, RoundingMode.HALF_UP))
-                .image(imageBlob)
+                //.image(imageBlob)
                 .category(category)
                 .build();
     }

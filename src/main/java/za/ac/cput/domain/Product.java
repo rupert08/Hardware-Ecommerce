@@ -34,10 +34,6 @@ public class Product {
     // Changed from float to BigDecimal to make sure there is 2 decimal places
     private BigDecimal price;
 
-
-    @Lob
-    private Blob image;
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     private Category category;

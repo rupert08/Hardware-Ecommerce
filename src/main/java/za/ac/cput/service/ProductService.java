@@ -2,8 +2,11 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import za.ac.cput.domain.Payment;
 import za.ac.cput.domain.Product;
 import za.ac.cput.repository.ProductRepository;
+import za.ac.cput.service.interfaces.IPaymentService;
+import za.ac.cput.service.interfaces.IProductService;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,6 +25,7 @@ public class ProductService implements IProductService {
     public Product create(Product product) {
         return productRepository.save(product);
     }
+
 
     @Override
     public Product read(Long id) {
@@ -43,8 +47,13 @@ public class ProductService implements IProductService {
         return productRepository.findAll().stream().collect(Collectors.toSet());
     }
 
+    @Override
+    public Product findProductsByName(String name) {
+        return productRepository.findProductsByName(name);
+    }
 
-   /* /**
+
+    /* /**
      * Retrieves a product by its ID.
      *
      * @param id The ID of the product to retrieve.

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,31 +30,36 @@ class CategoryServiceTest {
     @BeforeAll
     static void setUp() {
         try {
+            // Create category with an empty set of products initially
             category = CategoryFactory.createCategory(
-                    "Tools",
+                    "Dummy3",
                     "Various tools for home improvement",
-                    "C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png",
                     products
             );
 
-            // Create products
+            // Create products with BigDecimal for price
             Product product1 = ProductFactory.createProduct(
                     "Power Drill",
                     "High-speed power drill for home and professional use",
-                   (699.99f),
-                    "C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png", category
+                    BigDecimal.valueOf(699.99), // Use BigDecimal for price
+                    category
             );
             Product product2 = ProductFactory.createProduct(
                     "Electric Saw",
                     "Efficient electric saw for cutting wood and metal",
-                    (499.99f),
-                    "C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png",
+                    BigDecimal.valueOf(499.99), // Use BigDecimal for price
                     category
             );
             products.add(product1);
             products.add(product2);
 
-            // Create category with products
+            // Re-create category with products now added
+//            category = CategoryFactory.createCategory(
+//                    category.getName(),
+//                    category.getDescription(),
+//                    products
+            //);
+
         } catch (IOException | SQLException e) {
             throw new RuntimeException("Failed to create test category", e);
         } catch (Exception e) {
@@ -68,7 +74,7 @@ class CategoryServiceTest {
         assertNotNull(created, "The created category should not be null");
         assertEquals(category.getName(), created.getName(), "The category name should match");
         assertEquals(category.getDescription(), created.getDescription(), "The category description should match");
-        assertEquals(category.getImage(), created.getImage(), "The category image URL should match");
+        //assertEquals(category.getImage(), created.getImage(), "The category image URL should match");
         assertNotNull(created.getProducts(), "The category products should not be null");
         assertEquals(products.size(), created.getProducts().size(), "The number of products should match");
         System.out.println("Created Category: " + created);
@@ -93,7 +99,7 @@ class CategoryServiceTest {
     @Test
     @Order(4)
     void d_getAll() {
-        Set<Category> categories = categoryService.getAll();
+        List<Category> categories = categoryService.getAll();
         assertFalse(categories.isEmpty());
         System.out.println(categories);
     }

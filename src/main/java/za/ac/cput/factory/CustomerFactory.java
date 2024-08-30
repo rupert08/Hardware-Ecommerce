@@ -11,26 +11,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class CustomerFactory {
-    public static Customer createCustomer1(String username, String password, String role) {
-        if (ContactHelper.isValidEmail(username) || Helper.isNullOrEmpty(password) || Helper.isNullOrEmpty(role)) {
+    public static Customer createCustomer(String username, String password) {
+        if (ContactHelper.isValidEmail(username) || Helper.isNullOrEmpty(password)) {
 
             throw new IllegalArgumentException(
                     "Can not have null or empty values in required fields!!!");
         }
-        Contact contact = new Contact.Builder()
-                .setEmail(username)
+        Contact contact = Contact.builder()
+                .email(username)
                 .build();
 
-        return new Customer.Builder()
-                .setContact(contact)
-                .setUsername(username)
-                .setPassword(password)
-                .setRole(role)
+        return Customer.builder()
+                .contact(contact)
+                .username(username)
+                .password(password)
+                //
                 .build();
     }
 
 
-    public static Customer createCustomer2(String username, String firstname, String lastname, Contact contact, String password, String role, List <Address> addresses) {
+    public static Customer createCustomer(String username, String firstname, String lastname, Contact contact, String password, List <Address> address) {
         if (ContactHelper.isValidEmail(username)) {
             throw new IllegalArgumentException("Invalid username ");
         }
@@ -46,20 +46,40 @@ public class CustomerFactory {
         if (Helper.isNullOrEmpty(password)) {
             throw new IllegalArgumentException("Password cannot be null or empty");
         }
-        if (Helper.isNullOrEmpty(role)) {
-            throw new IllegalArgumentException("Role cannot be null or empty");
+        if (address == null) {
+            address = Collections.emptyList();
         }
-        if (addresses == null) {
-            addresses = Collections.emptyList();
+        return  Customer.builder()
+                .username(username)
+                .firstName(firstname)
+                .lastName(lastname)
+                .contact(contact)
+                .password(password)
+                .address(address)
+                .build();
+    }
+    public static Customer createCustomer(String username, String password, String firstName, String lastName, Contact contact) {
+        if (ContactHelper.isValidEmail(username)) {
+            throw new IllegalArgumentException("Invalid username ");
         }
-        return new Customer.Builder()
-                .setUsername(username)
-                .setFirstName(firstname)
-                .setLastName(lastname)
-                .setContact(contact)
-                .setPassword(password)
-                .setRole(role)
-                .setAddresses(addresses)
+        if (Helper.isNullOrEmpty(firstName)) {
+            throw new IllegalArgumentException("First name cannot be null or empty");
+        }
+        if (Helper.isNullOrEmpty(lastName)) {
+            throw new IllegalArgumentException("Last name cannot be null or empty");
+        }
+        if (contact == null) {
+            throw new IllegalArgumentException("Contact cannot be null");
+        }
+        if (Helper.isNullOrEmpty(password)) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+        return  Customer.builder()
+                .username(username)
+                .firstName(firstName)
+                .lastName(lastName)
+                .contact(contact)
+                .password(password)
                 .build();
     }
 

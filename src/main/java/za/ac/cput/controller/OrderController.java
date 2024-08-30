@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Order;
 import za.ac.cput.service.OrderService;
 import java.util.Set;
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -37,7 +38,7 @@ public class OrderController {
         orderService.delete(orderID);
     }
 
-    @GetMapping("/getAll")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
     public Set<Order> getAllOrders() {
         return orderService.getAll();
     }

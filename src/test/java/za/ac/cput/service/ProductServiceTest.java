@@ -27,8 +27,8 @@ class ProductServiceTest {
     private static Product product;
     static {
         try {
-            category = CategoryFactory.createCategoryWithoutProducts("Hand Tools", "Tools for home improvement","C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png");
-            product = ProductFactory.createProduct("Drill", "Powerful drilling machine", 199.99f, "C:\\Users\\Rupert Van Niekerk\\Documents\\ShareX\\Screenshots\\2024-04\\msedge_F7HspUtQqf.png", category);
+            category = CategoryFactory.createCategoryWithoutProducts("Hand Tools", "Tools for home improvement");
+            product = ProductFactory.createProduct("Drill", "Powerful drilling machine", BigDecimal.valueOf(199.99), category);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (IOException e) {

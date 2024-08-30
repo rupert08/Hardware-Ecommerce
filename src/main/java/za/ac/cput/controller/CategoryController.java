@@ -5,18 +5,17 @@ import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Category;
 import za.ac.cput.service.CategoryService;
 
+import java.util.List;
 import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
-
     @Autowired
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private CategoryService categoryService;
+
 
     @PostMapping("/create")
     public Category createCategory(@RequestBody Category category) {
@@ -38,9 +37,14 @@ public class CategoryController {
         categoryService.delete(id);
     }
 
-    @GetMapping("/all")
-    public Set<Category> getAllCategories() {
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+    public List<Category> getAll() {
         return categoryService.getAll();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/findCategoryByName")
+    public Category findCategoryByName(String name){
+        return categoryService.findCategoryByName(name);
     }
 }
 /*

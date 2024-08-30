@@ -1,13 +1,13 @@
-// CustomerService.java
 package za.ac.cput.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.repository.CustomerRepository;
-import za.ac.cput.util.Helper;
+import za.ac.cput.service.interfaces.ICustomerService;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +15,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor  // Lombok will generate the constructor for final fields(Autowired)
 public class CustomerService implements ICustomerService {
     private final CustomerRepository customerRepository;
-
-    @Autowired
-    CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public Customer create(Customer customer) {
@@ -61,41 +57,38 @@ public class CustomerService implements ICustomerService {
         if (existingCustomerOptional.isPresent()) {
             Customer existingCustomer = existingCustomerOptional.get();
 
-            Customer.Builder builder = new Customer.Builder().copy(existingCustomer);
+            Customer.CustomerBuilder builder = existingCustomer.toBuilder();
 
             if (customer.getFirstName() != null) {
-                builder.setFirstName(customer.getFirstName());
+                builder.firstName(customer.getFirstName());
             }
             if (customer.getLastName() != null) {
-                builder.setLastName(customer.getLastName());
+                builder.lastName(customer.getLastName());
             }
             if (customer.getUsername() != null) {
-                builder.setUsername(customer.getUsername());
+                builder.username(customer.getUsername());
             }
             if (customer.getPassword() != null) {
-                builder.setPassword(customer.getPassword());
-            }
-            if (customer.getRole() != null) {
-                builder.setRole(customer.getRole());
+                builder.password(customer.getPassword());
             }
             if (customer.getContact() != null) {
                 Contact existingContact = existingCustomer.getContact();
                 Contact newContact = customer.getContact();
-                Contact.Builder contactBuilder = new Contact.Builder().copy(existingContact);
+                Contact.ContactBuilder contactBuilder = existingContact.toBuilder();
 
                 if (newContact.getEmail() != null) {
-                    contactBuilder.setEmail(newContact.getEmail());
+                    contactBuilder.email(newContact.getEmail());
                 }
                 if (newContact.getPhoneNumber() != null) {
-                    contactBuilder.setPhoneNumber(newContact.getPhoneNumber());
+                    contactBuilder.phoneNumber(newContact.getPhoneNumber());
                 }
 
-                builder.setContact(contactBuilder.build());
+                builder.contact(contactBuilder.build());
             }
-            if (customer.getAddresses() != null) {
-                List<Address> existingAddresses = existingCustomer.getAddresses();
-                List<Address> newAddresses = customer.getAddresses();
-                builder.setAddresses(newAddresses != null ? newAddresses : existingAddresses);
+            if (customer.getAddress() != null) {
+                List<Address> existingAddresses = existingCustomer.getAddress();
+                List<Address> newAddresses = customer.getAddress();
+                builder.address(newAddresses != null ? newAddresses : existingAddresses);
             }
 
             return customerRepository.save(builder.build());
