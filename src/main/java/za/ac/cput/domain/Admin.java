@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)  // Use @SuperBuilder instead of @Builder
-@ToString
+@ToString(callSuper = true, includeFieldNames = true, exclude = {"password"}) //show password in test
 @EqualsAndHashCode(callSuper = true)
 public class Admin extends User implements Serializable {
 

@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Address;
+import za.ac.cput.domain.Admin;
 import za.ac.cput.domain.Customer;
 import za.ac.cput.factory.AddressFactory;
+import za.ac.cput.factory.AdminFactory;
 import za.ac.cput.factory.CustomerFactory;
 import za.ac.cput.service.CustomerService;
 
@@ -31,8 +33,8 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.findByUsernameAndPassword(login.getUsername(), login.getPassword()));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Customer> register(@RequestBody Customer obj) {
+    @PostMapping("/create")
+    public ResponseEntity<Customer> create(@RequestBody Customer obj) {
         Customer buildObj = CustomerFactory.createCustomer(obj.getUsername(), obj.getPassword(), obj.getFirstName(), obj.getLastName(), obj.getContact());
         Customer exists = customerService.read(obj.getUserId());
         if (buildObj == null) {
@@ -50,7 +52,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.read(id));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateAddress")
     public ResponseEntity<Customer> updateCustAddress(@RequestBody Customer obj) {
         Customer buildObj = CustomerFactory.createCustomer(obj.getUsername(), obj.getPassword(), obj.getFirstName(), obj.getLastName(), obj.getContact());
         Customer exists = customerService.read(obj.getUserId());
@@ -78,4 +80,15 @@ public class CustomerController {
     public Set<Customer> getAll() {
         return customerService.getAll();
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<Customer> update(@RequestBody Customer obj){
+        Customer customer = CustomerFactory.createCustomer(obj.getFirstName(), obj.getLastName(), obj.getContact());
+
+        if(customer == null){
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.update(customer));
+    }
+
 }

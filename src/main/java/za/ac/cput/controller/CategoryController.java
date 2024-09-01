@@ -47,6 +47,3 @@ public class CategoryController {
         return categoryService.findCategoryByName(name);
     }
 }
-/*
-
- */

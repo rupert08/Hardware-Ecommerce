@@ -83,5 +83,22 @@ public class CustomerFactory {
                 .build();
     }
 
+    public static Customer createCustomer(String firstname, String lastname, Contact contact) {
+        if (Helper.isNullOrEmpty(firstname)) {
+            throw new IllegalArgumentException("First name cannot be null or empty");
+        }
+        if (Helper.isNullOrEmpty(lastname)) {
+            throw new IllegalArgumentException("Last name cannot be null or empty");
+        }
+        if (contact == null) {
+            throw new IllegalArgumentException("Contact cannot be null");
+        }
+        return  Customer.builder()
+                .firstName(firstname)
+                .lastName(lastname)
+                .contact(contact)
+                .build();
+    }
+
 }
 
