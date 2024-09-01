@@ -1,29 +1,30 @@
 package za.ac.cput.factory;
 
-import za.ac.cput.domain.Address;
+import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Order;
-import za.ac.cput.domain.OrderItem;
+import za.ac.cput.domain.OrderStatus;
+import za.ac.cput.domain.Shipping;
 import za.ac.cput.util.Helper;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Set;
 
 public class OrderFactory {
 
-    public static Order buildOrder(long userID, LocalDate orderDate, Address address, float totalAmount, String orderStatus, Set<OrderItem> orderItems) {
-        if (Helper.isNullOrEmpty(String.valueOf(userID)) || Helper.isNullOrEmpty(String.valueOf(orderDate))
-                || Helper.isNullOrEmpty(String.valueOf(address)) || Helper.isNullOrEmpty(String.valueOf(totalAmount))
-                || Helper.isNullOrEmpty(orderStatus) || Helper.isNullOrEmpty(orderItems.toString())) {
-            return null;
+    public static Order buildOrder(Cart cart, LocalDate orderDate, Shipping shipping, BigDecimal totalAmount, OrderStatus orderStatus) {
+        if (Helper.isNullOrEmpty(String.valueOf(cart)) || Helper.isNullOrEmpty(String.valueOf(orderDate))
+                || Helper.isNullOrEmpty(String.valueOf(shipping)) || Helper.isNullOrEmpty(String.valueOf(totalAmount))
+                || Helper.isNullOrEmpty(String.valueOf(orderStatus))) {
+            throw new IllegalArgumentException("Invalid parameters");
         }
 
-        return new Order.Builder()
-                .setUserID(userID)
-                .setOrderDate(orderDate)
-                .setDeliveryAddress(address)
-                .setTotalAmount(totalAmount)
-                .setOrderStatus(orderStatus)
-                .setOrderItems(orderItems)
+        return Order.builder()
+                .cart(cart)
+                .orderDate(orderDate)
+                .shipping(shipping)
+                .totalAmount(totalAmount.setScale(2, RoundingMode.HALF_UP))
+                .orderStatus(OrderStatus.valueOf(String.valueOf(orderStatus)))
                 .build();
     }
 }
-
