@@ -26,5 +26,14 @@ public class AddressFactory {
         } else {
             throw new IllegalArgumentException("Invalid address");
         }
+
     }
-}
+    public static Address createAddress(String streetNumber, String streetName, String city, String state, String postalCode) {
+        return Address.builder()
+                .streetNumber(streetNumber)
+                .streetName(streetName)
+                .city(city)
+                .state(state)
+                .postalCode(postalCode)
+                .build();
+    }}

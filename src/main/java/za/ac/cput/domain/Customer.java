@@ -24,7 +24,7 @@ public class Customer extends User implements Serializable {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<Address> address;
+    private List<Address> address;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Contact contact;

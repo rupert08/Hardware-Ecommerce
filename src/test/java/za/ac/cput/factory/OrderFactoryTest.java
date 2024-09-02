@@ -29,7 +29,7 @@ class OrderFactoryTest {
     }
 
     private Shipping createValidShipping() {
-        Address address = AddressFactory.createAddress("21", "", "", "", "", "Main Street", "Capetown", "Western Cape", "8008", customer);
+        Address address = AddressFactory.createAddress("21", "Main Street", "Capetown", "Western Cape", "8008", customer);
         return ShippingFactory.createShipping(address, OrderStatus.PENDING, BigDecimal.valueOf(50.0));
     }
 

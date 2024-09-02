@@ -85,7 +85,7 @@ public class CustomerService implements ICustomerService {
             if (customer.getAddress() != null) {
                 List<Address> existingAddresses = (List<Address>) existingCustomer.getAddress();
                 List<Address> newAddresses = (List<Address>) customer.getAddress();
-                builder.address((Set<Address>) (newAddresses != null ? newAddresses : existingAddresses));
+                builder.address((List<Address>) (newAddresses != null ? newAddresses : existingAddresses));
             }
 
             return customerRepository.save(builder.build());
