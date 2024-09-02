@@ -1,6 +1,8 @@
 package za.ac.cput.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Category;
 import za.ac.cput.service.CategoryService;
@@ -17,11 +19,15 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
-    @PostMapping("/create")
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.create(category);
-    }
-
+//    @PostMapping("/create")
+//    public Category createCategory(@RequestBody Category category) {
+//        return categoryService.create(category);
+//    }
+@PostMapping("/create")
+public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    Category createdCategory = categoryService.create(category);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+}
     @GetMapping("/read/{id}")
     public Category readCategory(@PathVariable Long id) {
         return categoryService.read(id);

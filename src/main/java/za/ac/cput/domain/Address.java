@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 @Entity
 @Table(name = "address")
 @Getter
@@ -22,10 +19,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long addressId;
     private String streetNumber;
-    private String unitNumber;
-    private String complexNumber;
-    private String complexName;
-    private String apartmentNumber;
     private String streetName;
     private String city;
     private String state;

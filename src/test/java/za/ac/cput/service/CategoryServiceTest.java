@@ -32,7 +32,7 @@ class CategoryServiceTest {
         try {
             // Create category with an empty set of products initially
             category = CategoryFactory.createCategory(
-                    "Dummy3",
+                    "HANDYMAN",
                     "Various tools for home improvement",
                     products
             );

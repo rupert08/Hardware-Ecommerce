@@ -12,11 +12,17 @@ import za.ac.cput.factory.CustomerFactory;
 import za.ac.cput.service.CustomerService;
 
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
+import static org.hibernate.type.descriptor.JdbcExtractingLogging.LOGGER;
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
+    private static final Logger LOGGER = Logger.getLogger(CustomerController.class.getName());
+
     @Autowired
     private CustomerService customerService;
 
@@ -33,13 +39,12 @@ public class CustomerController {
 
     @PostMapping("/register")
     public ResponseEntity<Customer> register(@RequestBody Customer obj) {
-        Customer buildObj = CustomerFactory.createCustomer(obj.getUsername(), obj.getPassword(), obj.getFirstName(), obj.getLastName(), obj.getContact());
+        Customer buildObj = CustomerFactory.createCustomer( obj.getFirstName(), obj.getLastName(), obj.getContact());
         Customer exists = customerService.read(obj.getUserId());
         if (buildObj == null) {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
         }
         if (exists != null) {
-            System.out.println(exists);
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(customerService.create(buildObj));
@@ -50,25 +55,16 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.read(id));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Customer> updateCustAddress(@RequestBody Customer obj) {
-        Customer buildObj = CustomerFactory.createCustomer(obj.getUsername(), obj.getPassword(), obj.getFirstName(), obj.getLastName(), obj.getContact());
-        Customer exists = customerService.read(obj.getUserId());
-
-        if (buildObj == null) {
-            System.out.println(1);
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long userId, @RequestBody Customer customer) {
+        customer.setUserId(userId);
+        Customer updatedCustomer = customerService.update(customer);
+        if (updatedCustomer != null) {
+            return ResponseEntity.ok(updatedCustomer);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-        if (exists != null) {
-            Customer updated = customerService.update(buildObj);
-            System.out.println(updated.getAddress());
-            return ResponseEntity.status(HttpStatus.OK).body(customerService.read(updated.getUserId()));
-        }
-        System.out.println(exists);
-        return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
     }
-
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id) {
         customerService.delete(id);
