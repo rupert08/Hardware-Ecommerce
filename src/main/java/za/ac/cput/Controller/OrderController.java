@@ -1,17 +1,21 @@
-package za.ac.cput.controller;
+package za.ac.cput.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Order;
+import za.ac.cput.domain.OrderItem;
+import za.ac.cput.service.OrderItemService;
 import za.ac.cput.service.OrderService;
 import java.util.Set;
-@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/order")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderItemService orderItemService;
 
     @GetMapping("/home")
     public String home() {
@@ -38,12 +42,36 @@ public class OrderController {
         orderService.delete(orderID);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+    @GetMapping("/getAll")
     public Set<Order> getAllOrders() {
         return orderService.getAll();
     }
 
+    @PostMapping("/orderItem/create")
+    public OrderItem createOrderItem(@RequestBody OrderItem orderItem) {
+        return orderItemService.create(orderItem);
     }
+
+    @GetMapping("/orderItem/read/{orderItemID}")
+    public OrderItem readOrderItem(@PathVariable Long orderItemID) {
+        return orderItemService.read(orderItemID);
+    }
+
+    @PostMapping("/orderItem/update")
+    public OrderItem updateOrderItem(@RequestBody OrderItem orderItem) {
+        return orderItemService.update(orderItem);
+    }
+
+    @DeleteMapping("/orderItem/delete/{orderItemID}")
+    public void deleteOrderItem(@PathVariable Long orderItemID) {
+        orderItemService.delete(orderItemID);
+    }
+
+    @GetMapping("/orderItem/getAll")
+    public Set<OrderItem> getAllOrderItems() {
+        return orderItemService.getAll();
+    }
+}
 
 
 

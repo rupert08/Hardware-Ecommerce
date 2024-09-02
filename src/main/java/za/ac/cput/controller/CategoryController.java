@@ -1,29 +1,33 @@
 package za.ac.cput.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Category;
 import za.ac.cput.service.CategoryService;
 
+import java.util.List;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
-
     @Autowired
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private CategoryService categoryService;
 
-    @PostMapping("/create")
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.create(category);
-    }
 
+//    @PostMapping("/create")
+//    public Category createCategory(@RequestBody Category category) {
+//        return categoryService.create(category);
+//    }
+@PostMapping("/create")
+public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    Category createdCategory = categoryService.create(category);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+}
     @GetMapping("/read/{id}")
     public Category readCategory(@PathVariable Long id) {
         return categoryService.read(id);
@@ -40,8 +44,13 @@ public class CategoryController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAll")
-    public Set<Category> getAllCategories() {
+    public List<Category> getAll() {
         return categoryService.getAll();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/findCategoryByName")
+    public Category findCategoryByName(String name){
+        return categoryService.findCategoryByName(name);
     }
 }
 /*

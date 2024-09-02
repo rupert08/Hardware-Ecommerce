@@ -1,5 +1,6 @@
 package za.ac.cput.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,5 @@ public class Contact implements Serializable {
     @Column(unique = true)
     private String email;
     private String phoneNumber;
+
 }

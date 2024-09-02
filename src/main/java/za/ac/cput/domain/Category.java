@@ -1,5 +1,6 @@
 package za.ac.cput.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class Category implements Serializable {
     //private String image;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Product> products = new HashSet<>();
     public void addProduct(Product product) {
         if (products == null) {

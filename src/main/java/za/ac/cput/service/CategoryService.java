@@ -6,6 +6,7 @@ import za.ac.cput.domain.Category;
 import za.ac.cput.repository.CategoryRepository;
 import za.ac.cput.service.interfaces.ICategoryService;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,8 +40,8 @@ public class CategoryService implements ICategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public Set<Category> getAll() {
-        return categoryRepository.findAll().stream().collect(Collectors.toSet());
+    public List<Category> getAll() {
+        return categoryRepository.findAll();
     }
 
     @Override

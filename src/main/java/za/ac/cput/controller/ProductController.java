@@ -8,7 +8,7 @@ import za.ac.cput.service.ProductService;
 
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -40,7 +40,7 @@ public class ProductController {
         productService.delete(id);
     }
 
-    @GetMapping("/getAll")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
     public Set<Product> getAll() {
         return productService.getAll();
     }

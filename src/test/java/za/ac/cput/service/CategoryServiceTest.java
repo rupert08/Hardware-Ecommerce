@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ class CategoryServiceTest {
         try {
             // Create category with an empty set of products initially
             category = CategoryFactory.createCategory(
-                    "Tools",
+                    "HANDYMAN",
                     "Various tools for home improvement",
                     products
             );
@@ -53,11 +54,11 @@ class CategoryServiceTest {
             products.add(product2);
 
             // Re-create category with products now added
-            category = CategoryFactory.createCategory(
-                    category.getName(),
-                    category.getDescription(),
-                    products
-            );
+//            category = CategoryFactory.createCategory(
+//                    category.getName(),
+//                    category.getDescription(),
+//                    products
+            //);
 
         } catch (IOException | SQLException e) {
             throw new RuntimeException("Failed to create test category", e);
@@ -98,7 +99,7 @@ class CategoryServiceTest {
     @Test
     @Order(4)
     void d_getAll() {
-        Set<Category> categories = categoryService.getAll();
+        List<Category> categories = categoryService.getAll();
         assertFalse(categories.isEmpty());
         System.out.println(categories);
     }
