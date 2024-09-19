@@ -25,7 +25,7 @@ class AddressServiceTest {
 
     private static final Contact contact = ContactFactory.createContact("test6@example.com", "0783139988");
     private static final Customer customer = CustomerFactory.createCustomer(contact.getEmail(), "123456","John", "Wick", contact );
-    private static final Address address = AddressFactory.createAddress("21", "", "", "", "", "Main Street", "Cape Town", "Western Cape", "8008", customer);
+    private static final Address address = AddressFactory.createAddress("21", "Main Street", "Cape Town", "Western Cape", "8008");
 
 
     @Test

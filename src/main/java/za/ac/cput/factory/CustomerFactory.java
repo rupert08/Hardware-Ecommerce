@@ -3,8 +3,8 @@ package za.ac.cput.factory;
 import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
-import za.ac.cput.util.AddressHelper;
-import za.ac.cput.util.ContactHelper;
+//import za.ac.cput.util.AddressHelper;
+//import za.ac.cput.util.ContactHelper;
 import za.ac.cput.util.Helper;
 
 import java.util.Collections;
@@ -19,6 +19,7 @@ public class CustomerFactory {
 //            throw new IllegalArgumentException(
 //                    "Can not have null or empty values in required fields!!!");
 //        }
+
         Contact contact = Contact.builder()
                 .email(username)
                 .build();
@@ -32,7 +33,10 @@ public class CustomerFactory {
     }
 
 
-    public static Customer createCustomer(String username, String firstname, String lastname, Contact contact, String password, Set<Address> address) {
+    public static Customer createCustomer(String username, String firstname, String lastname, Contact contact, String password, List<Address> address) {
+        if (Helper.isNullOrEmpty(username)) {
+            username = contact.getEmail();
+        }
 //        if (ContactHelper.isValidEmail(username)) {
 //            throw new IllegalArgumentException("Invalid username ");
 //        }
@@ -61,6 +65,8 @@ public class CustomerFactory {
                 .build();
     }
     public static Customer createCustomer(String firstName, String lastName, Contact contact) {
+            Customer.builder().username(contact.getEmail()).build();
+
 //        if (ContactHelper.isValidEmail(username)) {
 //            throw new IllegalArgumentException("Invalid username ");
 //        }
@@ -82,6 +88,17 @@ public class CustomerFactory {
                 .contact(contact)
                 .build();
     }
-
+    public static Customer createCustomer(String username, String password, String firstName, String lastName, Contact contact){
+        if (Helper.isNullOrEmpty(username)) {
+            username = contact.getEmail();
+        }
+        return Customer.builder()
+                .username(username)
+                .password(password)
+                .firstName(firstName)
+                .lastName(lastName)
+                .contact(contact)
+                .build();
+    }
 }
 

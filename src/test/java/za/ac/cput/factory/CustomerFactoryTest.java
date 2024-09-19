@@ -8,6 +8,9 @@ import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,10 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class CustomerFactoryTest {
-
-    Contact contact = ContactFactory.createContact("john1@gmail.com", "0818945600");
+    List<Address> addresses;
+    Contact contact = ContactFactory.createContact("Wick1@gmail.com", "0818945600");
     Address address = AddressFactory.createAddress("12", "Test Street", "Grabouw", "Western Cape", "7160");
-    Customer customer = CustomerFactory.createCustomer(contact.getEmail(), "John", "Wick", contact, "123456", Collections.singletonList(address));
+
+    Customer customer = CustomerFactory.createCustomer(contact.getEmail(), "John", "Wick", contact, "123456", addresses);
 
     @Test
     @Order(1)
@@ -52,7 +56,7 @@ class CustomerFactoryTest {
     @Order(4)
     void d_customerRegisterDetails_failed() {
         Address addressF = AddressFactory.createAddress("12", "Test Street", "Grabouw", "Western Cape", "");
-        Customer customer3 = CustomerFactory.createCustomer(contact.getEmail(), "John", "Moses", contact, "123456", Collections.singletonList(addressF));
+        Customer customer3 = CustomerFactory.createCustomer(contact.getEmail(), "John", "Moses", contact, "123456", Collections.singletonList(address));
 
         assertNotNull(customer3);
         System.out.println(customer3);

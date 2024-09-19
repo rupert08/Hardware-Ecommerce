@@ -31,10 +31,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer update(Customer customer) {
-        if (customerRepository.existsById(customer.getUserId())) {
-            return customerRepository.save(customer);
-        }
-        return null;
+        return customerRepository.save(customer);
     }
 
     @Override
@@ -86,9 +83,9 @@ public class CustomerService implements ICustomerService {
                 builder.contact(contactBuilder.build());
             }
             if (customer.getAddress() != null) {
-                List<Address> existingAddresses = existingCustomer.getAddress();
-                List<Address> newAddresses = customer.getAddress();
-                builder.address(newAddresses != null ? newAddresses : existingAddresses);
+                List<Address> existingAddresses = (List<Address>) existingCustomer.getAddress();
+                List<Address> newAddresses = (List<Address>) customer.getAddress();
+                builder.address((List<Address>) (newAddresses != null ? newAddresses : existingAddresses));
             }
 
             return customerRepository.save(builder.build());
